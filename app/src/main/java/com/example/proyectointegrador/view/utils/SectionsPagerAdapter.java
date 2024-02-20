@@ -1,4 +1,4 @@
-package com.example.proyectointegrador.ui.main;
+package com.example.proyectointegrador.view.utils;
 
 import android.content.Context;
 
@@ -9,7 +9,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.proyectointegrador.R;
-import com.example.proyectointegrador.ui.fragments.GastosFragment;
+import com.example.proyectointegrador.view.fragments.GastosFragment;
+import com.example.proyectointegrador.view.fragments.SaldosFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -33,7 +34,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         if (position == 0){
             return GastosFragment.newInstance();
         }else{
-            return PlaceholderFragment.newInstance(position + 1);
+            return SaldosFragment.newInstance();
         }
 
     }

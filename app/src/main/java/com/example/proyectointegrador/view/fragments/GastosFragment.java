@@ -1,6 +1,4 @@
-package com.example.proyectointegrador.ui.fragments;
-
-import androidx.lifecycle.ViewModelProvider;
+package com.example.proyectointegrador.view.fragments;
 
 import android.os.Bundle;
 
@@ -12,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.databinding.FragmentGastosBinding;
 
 public class GastosFragment extends Fragment {

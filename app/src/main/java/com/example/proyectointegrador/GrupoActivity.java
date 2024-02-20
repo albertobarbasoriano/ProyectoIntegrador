@@ -8,7 +8,7 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import com.example.proyectointegrador.ui.main.SectionsPagerAdapter;
+import com.example.proyectointegrador.view.utils.SectionsPagerAdapter;
 import com.example.proyectointegrador.databinding.ActivityGrupoBinding;
 
 public class GrupoActivity extends AppCompatActivity {

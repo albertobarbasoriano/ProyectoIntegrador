@@ -1,4 +1,4 @@
-package com.example.proyectointegrador.ui.fragments;
+package com.example.proyectointegrador.view.fragments;
 
 import androidx.lifecycle.ViewModel;
 
