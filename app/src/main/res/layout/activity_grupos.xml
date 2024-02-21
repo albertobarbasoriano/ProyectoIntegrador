@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/mainMargin"
     tools:context=".GruposActivity">
 
     <include
@@ -14,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="70dp"><!-- HAy que insertarlo en dimens.xml-->
+        android:layout_marginTop="@dimen/gruposTop">
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -27,7 +28,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_add_24"
             android:backgroundTint="@color/green"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/mainMargin"/>
     </LinearLayout>
 
 
