@@ -22,12 +22,12 @@
             android:layout_weight="1"/>
 
 
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            style="@drawable/button_style"
-            android:text="+"/> <!-- Hay que insertarlo en strings.xml -->
+            android:src="@drawable/baseline_add_24"
+            android:backgroundTint="@color/green"
+            android:layout_gravity="center"/>
     </LinearLayout>
 
 
