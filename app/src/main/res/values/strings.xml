@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FairShare</string>
+    <string name="app_name">Aequalis</string>
     <string name="title_activity_main2">MainActivity2</string>
     <string name="tab_gastos">GASTOS</string>
     <string name="tab_saldos">SALDOS</string>

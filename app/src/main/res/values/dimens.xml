@@ -7,4 +7,6 @@
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="margen">16dp</dimen>
     <dimen name="margen_peq">8dp</dimen>
+    <dimen name="text_size_grupo">16sp</dimen>
+    <dimen name="text_size_peq">10sp</dimen>
 </resources>
