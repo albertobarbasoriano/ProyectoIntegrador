@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
@@ -9,4 +10,7 @@
     <dimen name="margen_peq">8dp</dimen>
     <dimen name="text_size_grupo">16sp</dimen>
     <dimen name="text_size_peq">10sp</dimen>
+    <dimen name="mainMargin">10dp</dimen>
+    <dimen name="gruposTop">70dp</dimen>
+    <dimen name="titulo">20sp</dimen>
 </resources>

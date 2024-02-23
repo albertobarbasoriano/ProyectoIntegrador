@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/mainMargin"
+    tools:context=".GruposActivity">
+
+    <include
+        android:id="@+id/gruposToolbar"
+        layout="@layout/toolbar_grupos"/>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/gruposTop">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_add_24"
+            android:backgroundTint="@color/green"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/mainMargin"
+            android:contentDescription="@string/gruposDescription" />
+    </LinearLayout>
+
+
+
+</RelativeLayout>

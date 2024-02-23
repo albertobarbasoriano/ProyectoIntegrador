@@ -3,4 +3,33 @@
     <string name="title_activity_main2">MainActivity2</string>
     <string name="tab_gastos">GASTOS</string>
     <string name="tab_saldos">SALDOS</string>
+
+    <!-- Global -->
+    <string name="globalTitulo">Titulo</string>
+
+    <!-- Activity grupos -->
+    <string name="gruposDescription">Nuevo grupo</string>
+
+    <!-- Activity nuevo gasto -->
+    <string name="nuevoGastoCantidadHint">Cantidad</string>
+    <string-array name="nuevoGastoCantidades">
+        <item>EUR</item>
+        <item>DOL</item>
+        <item>YEN</item>
+        <item>RUB</item>
+    </string-array>
+    <string name="nuevoGastoFechaHint">Fecha</string>
+    <string name="nuevoGastoPagadoHint">Pagado por</string>
+
+    <!-- Activity nuevo grupo -->
+    <string name="nuevoGrupoDescripcionHint">Descripcion</string>
+    <string name="nuevoGrupoAnnadir">Añadir</string>
+    <string name="nuevoGrupoParticipantesHint">Participante</string>
+
+    <!-- Toolbar nuevo gasto -->
+    <string name="toolbarNuevoGastoTitle">Nuevo gasto</string>
+
+    <!-- Toolbar nuevo grupo -->
+    <string name="toolbarNuevoGrupoTitle">Nuevo grupo</string>
+
 </resources>
