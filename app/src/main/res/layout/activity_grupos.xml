@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/mainMargin"
-    tools:context=".GruposActivity">
+    tools:context=".view.GruposActivity">
 
     <include
         android:id="@+id/gruposToolbar"
@@ -15,7 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:paddingHorizontal="@dimen/mainMargin"
+        android:paddingBottom="@dimen/mainMargin"
         android:layout_marginTop="@dimen/gruposTop">
+        <Button
+            android:id="@+id/btnTemporal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Navegar a un grupo"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
@@ -24,10 +30,11 @@
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnAddGrupo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_add_24"
-            android:backgroundTint="@color/green"
+            android:backgroundTint="@color/verde_principal"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/mainMargin"
             android:contentDescription="@string/gruposDescription" />

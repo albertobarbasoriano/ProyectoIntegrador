@@ -10,7 +10,7 @@
     <dimen name="margen_peq">8dp</dimen>
     <dimen name="text_size_grupo">16sp</dimen>
     <dimen name="text_size_peq">10sp</dimen>
-    <dimen name="mainMargin">10dp</dimen>
+    <dimen name="mainMargin">16dp</dimen>
     <dimen name="gruposTop">70dp</dimen>
     <dimen name="titulo">20sp</dimen>
 </resources>

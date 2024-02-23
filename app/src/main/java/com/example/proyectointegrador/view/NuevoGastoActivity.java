@@ -1,4 +1,4 @@
-package com.example.proyectointegrador;
+package com.example.proyectointegrador.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.example.proyectointegrador.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class NuevoGastoActivity extends AppCompatActivity implements View.OnClickListener {
@@ -17,6 +18,7 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuevo_gasto);
+        getSupportActionBar().hide();
 
         spnCantidad = findViewById(R.id.nuevoGastoSpinnerCantidad);
         tietFecha = findViewById(R.id.nuevoGastoFecha);

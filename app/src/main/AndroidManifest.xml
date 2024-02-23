@@ -13,10 +13,10 @@
         android:theme="@style/Theme.ProyectoIntegrador"
         tools:targetApi="31">
         <activity
-            android:name=".NuevoGastoActivity"
+            android:name=".view.NuevoGastoActivity"
             android:exported="false" />
         <activity
-            android:name=".GruposActivity"
+            android:name=".view.GruposActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NuevoGrupoActivity"
+            android:name=".view.NuevoGrupoActivity"
             android:exported="true"/>
         <activity
             android:name=".view.GrupoActivity"

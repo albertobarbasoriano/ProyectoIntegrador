@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/mainMargin"
-    tools:context=".NuevoGrupoActivity">
+    tools:context=".view.NuevoGrupoActivity">
 
     <include
         layout="@layout/toolbar_nuevo_grupo"/>
