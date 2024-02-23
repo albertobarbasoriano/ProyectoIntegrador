@@ -13,7 +13,7 @@
         android:theme="@style/Theme.ProyectoIntegrador"
         tools:targetApi="31">
         <activity
-            android:name=".GrupoActivity"
+            android:name=".view.GrupoActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

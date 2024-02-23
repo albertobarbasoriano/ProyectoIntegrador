@@ -1,4 +1,4 @@
-package com.example.proyectointegrador;
+package com.example.proyectointegrador.view;
 
 import android.os.Bundle;
 
