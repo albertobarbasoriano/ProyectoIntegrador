@@ -9,7 +9,7 @@
 
     <include
         android:id="@+id/gruposToolbar"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar_grupos"/>
     
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,8 @@
             android:src="@drawable/baseline_add_24"
             android:backgroundTint="@color/green"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/mainMargin"/>
+            android:layout_marginBottom="@dimen/mainMargin"
+            android:contentDescription="@string/gruposDescription" />
     </LinearLayout>
 
 
