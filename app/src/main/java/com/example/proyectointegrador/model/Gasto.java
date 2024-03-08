@@ -20,7 +20,7 @@ public class Gasto {
 
     private void initParticipantes(List<String> participantes) {
         this.participantes = new HashMap<>();
-        for (String nombre : participantes){
+        for (String nombre : participantes) {
             this.participantes.put(nombre, 0);
         }
     }
@@ -71,8 +71,8 @@ public class Gasto {
     }
 
     //MÉTODOS
-    public double calcularPago(){
-        return total/participantes.size();
+    public double calcularPago() {
+        return total / (participantes.size() + 1);
     }
 
 }
