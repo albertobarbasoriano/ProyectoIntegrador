@@ -1,9 +1,11 @@
 package com.example.proyectointegrador.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Participante {
     String username, nombre, email;
+    List<String> grupos;
 
     public Participante(String username, String nombre, String email) {
         this.username = username;
@@ -33,5 +35,13 @@ public class Participante {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<String> getGrupos() {
+        return grupos;
+    }
+
+    public void setGrupos(List<String> grupos) {
+        this.grupos = grupos;
     }
 }

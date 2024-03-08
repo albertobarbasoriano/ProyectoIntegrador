@@ -7,13 +7,10 @@
     android:padding="@dimen/mainMargin"
     tools:context=".view.NuevoGrupoActivity">
 
-    <include
-        layout="@layout/toolbar_nuevo_grupo"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/gruposTop"
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -21,9 +18,9 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/globalTitulo"
                 android:hint="@string/globalTitulo"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -34,14 +31,15 @@
             android:layout_marginTop="@dimen/mainMargin">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etDescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/nuevoGrupoDescripcionHint"
                 android:hint="@string/nuevoGrupoDescripcionHint"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <Spinner
+            android:id="@+id/spnDivisa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/mainMargin"/>
@@ -50,31 +48,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/mainMargin"
+            android:padding="@dimen/margen_peq"
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/mainMargin"
                 android:layout_weight="1">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etParticipante"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/nuevoGrupoParticipantesHint"
+                    android:layout_gravity="center_vertical"
                     android:hint="@string/nuevoGrupoParticipantesHint"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
+                android:id="@+id/btnAddParticipante"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
                 android:text="@string/nuevoGrupoAnnadir"
+                android:layout_weight="0.1"
                 android:layout_marginStart="@dimen/mainMargin"/>
 
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvParticipantesGrupo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/mainMargin"/>

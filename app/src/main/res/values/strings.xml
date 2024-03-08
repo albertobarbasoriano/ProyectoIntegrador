@@ -35,5 +35,11 @@
     <string name="text_pagado_por">Pagado por %1$s</string>
     <string name="text_coste_gasto">%1$.2f%2$s</string>
     <string name="text_info_deuda">%1$s debe a %2$s</string>
+    <string name="label_nuevo_grupo">Nuevo grupo</string>
+    <string name="error_campos_obligatorios">Todos los campos son obligatorios</string>
+    <string name="error_algo_mal">Ha ocurrido algo inesperado. No se han guardado los datos.</string>
+    <string name="error_user_vacio">Debes introducir un username</string>
+    <string name="error_no_participantes">Se debe introducir al menos un participante</string>
+    <string name="info_grupo_add">Se ha creado el grupo \"%1$s\"</string>
 
 </resources>

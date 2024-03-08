@@ -52,11 +52,13 @@ public class ParticipanteSaldoAdapter extends RecyclerView.Adapter<ParticipanteS
 
         public void bindItem(String nombre, double saldo) {
             tvNombre.setText(nombre);
-            String saldoString = String.format(v.getContext().getString(R.string.text_coste_gasto), saldo, grupo.getDivisa());
+            String saldoString = String.format(v.getContext().getString(R.string.text_coste_gasto), saldo, grupo.formatDivisa());
             if (saldo > 0) {
                 saldoString = "+" + saldoString;
                 tvSaldo.setTextColor(v.getContext().getColor(R.color.verde_principal));
-            } else {
+            }else if(saldo == 0){
+                tvSaldo.setTextColor(v.getContext().getColor(R.color.black));
+            }else {
                 saldoString = "-" + saldoString;
                 tvSaldo.setTextColor(v.getContext().getColor(R.color.rojo));
             }

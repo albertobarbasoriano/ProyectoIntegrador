@@ -27,9 +27,12 @@ public class SaldosFragment extends Fragment {
     private FragmentSaldosBinding binding;
     private Grupo grupo;
 
-    public static SaldosFragment newInstance() {
-        SaldosFragment fragment = new SaldosFragment();
+    public SaldosFragment(Grupo grupo) {
+        this.grupo = grupo;
+    }
 
+    public static SaldosFragment newInstance(Grupo grupo) {
+        SaldosFragment fragment = new SaldosFragment(grupo);
         return fragment;
     }
 
@@ -42,8 +45,10 @@ public class SaldosFragment extends Fragment {
         binding = FragmentSaldosBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+
+
         //TODO: ESTO HAY QUE BORRARLO
-        List<Gasto> gastoList = new ArrayList<>();
+        /*List<Gasto> gastoList = new ArrayList<>();
         gastoList.add(new Gasto(new ArrayList<>(Arrays.asList(new String[]{"Prueba", "Prueba2"})), "Prueba", "Prueba", 10, "Prueba3"));
         gastoList.add(new Gasto(new ArrayList<>(Arrays.asList(new String[]{"Prueba3", "Prueba2"})), "Prueba", "Prueba", 10, "Prueba"));
         grupo = new Grupo(
@@ -51,9 +56,8 @@ public class SaldosFragment extends Fragment {
                 new ArrayList<>(Arrays.asList(new String[]{"Prueba", "Prueba2", "Prueba3"})),
                 "Prueba",
                 "Prueba",
-                "€",
-                "123"
-        );
+                "€"
+        );*/
 
         configurarRVs(root);
 

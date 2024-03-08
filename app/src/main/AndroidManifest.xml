@@ -26,6 +26,7 @@
         </activity>
         <activity
             android:name=".view.NuevoGrupoActivity"
+            android:label="@string/label_nuevo_grupo"
             android:exported="true"/>
         <activity
             android:name=".view.GrupoActivity"

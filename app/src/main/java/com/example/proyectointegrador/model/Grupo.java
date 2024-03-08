@@ -1,22 +1,51 @@
 package com.example.proyectointegrador.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Grupo {
+public class Grupo implements Parcelable{
     private List<Gasto> listaGastos;
     private List<String> listaParticipantes;
     private String titulo, descripcion, divisa, key;
 
-    public Grupo(List<Gasto> listaGastos, List<String> listaParticipantes, String titulo, String descripcion, String divisa, String key) {
+    public Grupo() {
+    }
+
+    public Grupo(List<Gasto> listaGastos, List<String> listaParticipantes, String titulo, String descripcion, String divisa) {
         this.listaGastos = listaGastos;
         this.listaParticipantes = listaParticipantes;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.divisa = divisa;
-        this.key = key;
     }
+
+
+    protected Grupo(Parcel in) {
+        listaGastos = in.createTypedArrayList(Gasto.CREATOR);
+        listaParticipantes = in.createStringArrayList();
+        titulo = in.readString();
+        descripcion = in.readString();
+        divisa = in.readString();
+        key = in.readString();
+    }
+
+    public static final Creator<Grupo> CREATOR = new Creator<Grupo>() {
+        @Override
+        public Grupo createFromParcel(Parcel in) {
+            return new Grupo(in);
+        }
+
+        @Override
+        public Grupo[] newArray(int size) {
+            return new Grupo[size];
+        }
+    };
 
     public List<Gasto> getListaGastos() {
         return listaGastos;
@@ -109,5 +138,36 @@ public class Grupo {
         }
 
         return saldo;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeTypedList(listaGastos);
+        dest.writeStringList(listaParticipantes);
+        dest.writeString(titulo);
+        dest.writeString(descripcion);
+        dest.writeString(divisa);
+        dest.writeString(key);
+    }
+
+    public String formatDivisa() {
+        switch (divisa){
+            case "EUR":
+                return "€";
+            case "DOL":
+                return "$";
+            case "YEN":
+                return "¥";
+            case "RUB":
+                return "₽";
+            default:
+                return divisa;
+        }
     }
 }

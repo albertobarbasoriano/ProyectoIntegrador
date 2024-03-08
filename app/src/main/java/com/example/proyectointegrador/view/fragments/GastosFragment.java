@@ -33,8 +33,13 @@ public class GastosFragment extends Fragment {
     private FragmentGastosBinding binding;
     private Grupo grupo;
 
-    public static GastosFragment newInstance() {
-        GastosFragment fragment = new GastosFragment();
+    public GastosFragment(Grupo grupo) {
+        this.grupo = grupo;
+    }
+
+    public static GastosFragment newInstance(Grupo grupo) {
+        GastosFragment fragment = new GastosFragment(grupo);
+
         return fragment;
     }
 
@@ -45,20 +50,25 @@ public class GastosFragment extends Fragment {
         View root = binding.getRoot();
 
         //TODO: ESTO HAY QUE BORRARLO
-        List<Gasto> gastoList = new ArrayList<>();
-        gastoList.add(new Gasto(new ArrayList<>(Arrays.asList(new String[]{"Prueba", "Prueba2"})), "Prueba", "Prueba", 10, "Prueba"));
-        gastoList.add(new Gasto(new ArrayList<>(Arrays.asList(new String[]{"Prueba3", "Prueba2"})), "Prueba", "Prueba", 10, "Prueba2"));
+        /*List<Gasto> gastoList = new ArrayList<>();
+        gastoList.add(new Gasto(new ArrayList<>(Arrays.asList(new String[]{"Prueba", "Prueba2"})), "Prueba", "Prueba", 10, "Prueba3"));
+        gastoList.add(new Gasto(new ArrayList<>(Arrays.asList(new String[]{"Prueba3", "Prueba2"})), "Prueba", "Prueba", 10, "Prueba"));
         grupo = new Grupo(
                 gastoList,
-                new ArrayList<>(Arrays.asList(new String[]{"Prueba", "Prueba2"})),
+                new ArrayList<>(Arrays.asList(new String[]{"Prueba", "Prueba2", "Prueba3"})),
                 "Prueba",
                 "Prueba",
-                "€",
-                "123"
-        );
+                "€"
+        );*/
 
         configurarRV(root);
-        updateBarraInferior();
+        if (grupo.getListaGastos() != null){
+            updateBarraInferior();
+        }else {
+            binding.tvTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), new Double(0), grupo.formatDivisa()));
+            binding.tvMiTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), new Double(0), grupo.formatDivisa()));
+        }
+
         binding.btnAddGasto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,18 +85,18 @@ public class GastosFragment extends Fragment {
         for(Gasto gasto : gastos){
             totalGrupo += gasto.getTotal();
         }
-        binding.tvTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), totalGrupo, grupo.getDivisa()));
+        binding.tvTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), totalGrupo, grupo.formatDivisa()));
 
         //UPDATE DEL GASTO PERSONAL
         double gastoPersonal = 0;
         for(Gasto gasto: gastos){
-            if (gasto.getPagador().equals("Prueba")){ //TODO: Cambiar 'Prueba' por el nombre del usuario loggeado
+            if (gasto.getPagador().equals("Creador")){ //TODO: Cambiar 'Prueba' por el nombre del usuario loggeado
                 gastoPersonal += gasto.calcularPago();
             }else{
                 List<String> participantes = new ArrayList<>(gasto.getParticipantes().keySet());
                 if (participantes != null){
                     for (String participanteNombre : participantes){
-                        if (participanteNombre.equals("Prueba")){ //TODO: Cambiar 'Prueba' por el nombre del usuario loggeado
+                        if (participanteNombre.equals("Creador")){ //TODO: Cambiar 'Prueba' por el nombre del usuario loggeado
                             gastoPersonal += gasto.calcularPago();
                             break;
                         }
@@ -95,7 +105,7 @@ public class GastosFragment extends Fragment {
 
             }
         }
-        binding.tvMiTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), gastoPersonal, grupo.getDivisa()));
+        binding.tvMiTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), gastoPersonal, grupo.formatDivisa()));
     }
 
     private void configurarRV(View root) {

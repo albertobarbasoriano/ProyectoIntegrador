@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.proyectointegrador.R;
+import com.example.proyectointegrador.model.Grupo;
 import com.example.proyectointegrador.view.fragments.GastosFragment;
 import com.example.proyectointegrador.view.fragments.SaldosFragment;
 
@@ -22,9 +23,12 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private static final int[] TAB_TITLES = new int[]{R.string.tab_gastos, R.string.tab_saldos};
     private final Context mContext;
 
-    public SectionsPagerAdapter(Context context, FragmentManager fm) {
+    private Grupo grupo;
+
+    public SectionsPagerAdapter(Context context, FragmentManager fm, Grupo grupo) {
         super(fm);
         mContext = context;
+        this.grupo = grupo;
     }
 
     @Override
@@ -32,9 +36,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment.
         if (position == 0){
-            return GastosFragment.newInstance();
+            return GastosFragment.newInstance(grupo);
         }else{
-            return SaldosFragment.newInstance();
+            return SaldosFragment.newInstance(grupo);
         }
 
     }
