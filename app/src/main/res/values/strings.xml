@@ -32,4 +32,7 @@
     <!-- Toolbar nuevo grupo -->
     <string name="toolbarNuevoGrupoTitle">Nuevo grupo</string>
 
+    <string name="text_pagado_por">Pagado por %1$s</string>
+    <string name="text_coste_gasto">%1$.2f%2$s</string>
+
 </resources>

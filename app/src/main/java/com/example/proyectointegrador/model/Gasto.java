@@ -1,52 +1,78 @@
 package com.example.proyectointegrador.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Gasto {
-    private String titulo, divisa, fecha;
-    private double cantidad;
-    private HashMap<Participante, Integer> infoPagos;
+    private Map<String, Integer> participantes;
+    private String titulo, descripcion, pagador, fecha;
+    private double total;
 
-    public Gasto(String titulo, String divisa, String fecha, double cantidad, Participante pagador, ArrayList<Participante> participantes) {
+    //CONSTRUCTORES
+    public Gasto(List<String> participantes, String titulo, String descripcion, double total, String pagador) {
+        initParticipantes(participantes);
         this.titulo = titulo;
-        this.divisa = divisa;
-        this.fecha = fecha;
-        this.cantidad = cantidad;
-        iniciarInfoPagos(pagador, participantes);
+        this.descripcion = descripcion;
+        this.total = total;
+        this.pagador = pagador;
     }
 
-    private void iniciarInfoPagos(Participante pagador, ArrayList<Participante> participantes) {
-        infoPagos = new HashMap<>(participantes.size() + 1);
-        infoPagos.put(pagador, 2);
-        for (Participante p :
-                participantes) {
-            infoPagos.put(p, 0);
+    private void initParticipantes(List<String> participantes) {
+        this.participantes = new HashMap<>();
+        for (String nombre : participantes){
+            this.participantes.put(nombre, 0);
         }
+    }
+
+    //GETTERS Y SETTERS
+    public Map<String, Integer> getParticipantes() {
+        return participantes;
+    }
+
+    public void setParticipantes(Map<String, Integer> participantes) {
+        this.participantes = participantes;
     }
 
     public String getTitulo() {
         return titulo;
     }
 
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public String getPagador() {
+        return pagador;
+    }
+
+    public void setPagador(String pagador) {
+        this.pagador = pagador;
+    }
+
     public String getFecha() {
         return fecha;
     }
 
-    public HashMap<Participante, Integer> getInfoPagos() {
-        return infoPagos;
+    //MÉTODOS
+    public double calcularPago(){
+        return total/participantes.size();
     }
 
-    public Participante getPagador(){
-        Participante pagador = null;
-        for (Map.Entry<Participante, Integer> entry :
-                infoPagos.entrySet()) {
-            if(entry.getValue() == 2){
-                pagador = entry.getKey();
-                break;
-            }
-        }
-        return pagador;
-    }
 }

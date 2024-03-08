@@ -13,12 +13,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvListaGastos"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/margen"
+            android:layout_height="match_parent"
+
             app:layout_constraintBottom_toTopOf="@id/llContainerCuenta"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <LinearLayout
             android:id="@+id/llContainerCuenta"
