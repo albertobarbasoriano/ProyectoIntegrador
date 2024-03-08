@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "466748651666",
+    "project_id": "aequalis-db",
+    "storage_bucket": "aequalis-db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:466748651666:android:994955046b1f4b74798e4b",
+        "android_client_info": {
+          "package_name": "com.example.proyectointegrador"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-TzoDjoeaKjRNLCnIzA3hws7at2C8nNk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
