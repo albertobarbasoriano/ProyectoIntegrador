@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.model.Gasto;
@@ -67,17 +68,13 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
                         for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                             addInfoGrupo(childSnapshot.getKey());
                         }
-
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
+                        Toast.makeText(GruposActivity.this, R.string.error_algo_mal, Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
-
 
 
     private void addInfoGrupo(String key) {
@@ -88,25 +85,25 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         Grupo grupoResult = snapshot.getValue(Grupo.class);
-                        if (grupoResult.getListaGastos() == null){
+                        if (grupoResult.getListaGastos() == null) {
                             grupoResult.setListaGastos(new HashMap<String, Gasto>());
                         }
-                        if (!grupos.isEmpty()){
+                        if (!grupos.isEmpty()) {
                             Grupo update = null;
-                            for (Grupo g: grupos){
-                                if (g.getKey().equals(grupoResult.getKey())){
+                            for (Grupo g : grupos) {
+                                if (g.getKey().equals(grupoResult.getKey())) {
                                     update = g;
                                     break;
                                 }
                             }
-                            if (update != null){
+                            if (update != null) {
                                 int index = grupos.indexOf(update);
                                 grupos.set(index, grupoResult);
                                 grupos.remove(update);
-                            }else {
+                            } else {
                                 grupos.add(grupoResult);
                             }
-                        }else {
+                        } else {
                             grupos.add(grupoResult);
                         }
                         grupoAdapter.notifyDataSetChanged();

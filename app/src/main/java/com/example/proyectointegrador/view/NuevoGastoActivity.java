@@ -141,12 +141,13 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
     private void guardarGasto() {
         String titulo = etTitulo.getText().toString().trim();
         String fecha = tietFecha.getText().toString().trim();
-        if (gasto.getTotal() == 0)
+        if (gasto.getTotal() == 0){
             checkCantidad();
-
-        if (titulo.isEmpty() || fecha.isEmpty()) {
-
-        } else {
+        }else if (titulo.isEmpty() || fecha.isEmpty() || gasto.getPagador().isEmpty()) {
+            Toast.makeText(app, R.string.error_campos_obligatorios, Toast.LENGTH_SHORT).show();
+        }else if (participantesGasto.isEmpty()){
+            Toast.makeText(app, R.string.error_no_participantes, Toast.LENGTH_SHORT).show();
+        }else {
             gasto.setTitulo(titulo);
             gasto.setFecha(fecha);
             gasto.setKey(FirebaseDatabase.getInstance().getReference(NuevoGrupoActivity.DB_PATH_GRUPOS).child(grupo.getKey()).child("listaGastos").push().getKey());

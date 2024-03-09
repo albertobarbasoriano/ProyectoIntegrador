@@ -71,6 +71,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:text="@string/nuevoGrupoAnnadir"
+                android:textSize="@dimen/text_size_add"
                 android:layout_weight="0.1"
                 android:layout_marginStart="@dimen/mainMargin"/>
 
