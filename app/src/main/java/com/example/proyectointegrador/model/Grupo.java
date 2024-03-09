@@ -5,12 +5,14 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Grupo implements Parcelable{
-    private List<Gasto> listaGastos;
+    private List<Gasto> gastoList;
+    private Map<String, Gasto> listaGastos;
     private List<String> listaParticipantes;
     private String titulo, descripcion, divisa, key;
 
@@ -18,7 +20,7 @@ public class Grupo implements Parcelable{
     }
 
     public Grupo(List<Gasto> listaGastos, List<String> listaParticipantes, String titulo, String descripcion, String divisa) {
-        this.listaGastos = listaGastos;
+        this.gastoList = listaGastos;
         this.listaParticipantes = listaParticipantes;
         this.titulo = titulo;
         this.descripcion = descripcion;
@@ -27,7 +29,7 @@ public class Grupo implements Parcelable{
 
 
     protected Grupo(Parcel in) {
-        listaGastos = in.createTypedArrayList(Gasto.CREATOR);
+        gastoList = in.createTypedArrayList(Gasto.CREATOR);
         listaParticipantes = in.createStringArrayList();
         titulo = in.readString();
         descripcion = in.readString();
@@ -47,12 +49,12 @@ public class Grupo implements Parcelable{
         }
     };
 
-    public List<Gasto> getListaGastos() {
-        return listaGastos;
+    public List<Gasto> getGastoList() {
+        return gastoList;
     }
 
-    public void setListaGastos(List<Gasto> listaGastos) {
-        this.listaGastos = listaGastos;
+    public void setGastoList(List<Gasto> gastoList) {
+        this.gastoList = gastoList;
     }
 
     public List<String> getListaParticipantes() {
@@ -95,12 +97,21 @@ public class Grupo implements Parcelable{
         this.key = key;
     }
 
+    public Map<String, Gasto> getListaGastos() {
+        return listaGastos;
+    }
+
+    public void setListaGastos(Map<String, Gasto> listaGastos) {
+        this.listaGastos = listaGastos;
+        gastoList = new ArrayList<>(listaGastos.values());
+    }
+
     //MÉTODOS
     public Map<String, Map<String, Double>> getDeudas(){
         Map<String, Map<String, Double>> mapaDeudas = new HashMap<>();
         for (String participante : listaParticipantes){
             Map<String, Double> deudasParticipante = new HashMap<>();
-            for (Gasto gasto : listaGastos) {
+            for (Gasto gasto : gastoList) {
                 if (gasto.getParticipantes().containsKey(participante) && gasto.getParticipantes().get(participante) == 0) {
                     if (deudasParticipante.containsKey(gasto.getPagador())) {
                         double tmp = deudasParticipante.get(gasto.getPagador());
@@ -126,7 +137,7 @@ public class Grupo implements Parcelable{
     public double calcularSaldo(int position) {
         double saldo = 0;
         String participante = listaParticipantes.get(position);
-        for(Gasto gasto : listaGastos){
+        for(Gasto gasto : gastoList){
             if (gasto.getPagador().equals(participante)){
                 saldo += gasto.getTotal();
             }
@@ -141,20 +152,7 @@ public class Grupo implements Parcelable{
     }
 
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeTypedList(listaGastos);
-        dest.writeStringList(listaParticipantes);
-        dest.writeString(titulo);
-        dest.writeString(descripcion);
-        dest.writeString(divisa);
-        dest.writeString(key);
-    }
 
     public String formatDivisa() {
         switch (divisa){
@@ -169,5 +167,20 @@ public class Grupo implements Parcelable{
             default:
                 return divisa;
         }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeTypedList(gastoList);
+        dest.writeStringList(listaParticipantes);
+        dest.writeString(titulo);
+        dest.writeString(descripcion);
+        dest.writeString(divisa);
+        dest.writeString(key);
     }
 }

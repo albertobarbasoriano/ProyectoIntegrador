@@ -1,6 +1,5 @@
 package com.example.proyectointegrador.view.utils.recyclerview;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectointegrador.R;
-import com.example.proyectointegrador.databinding.ItemGastoBinding;
 import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
 
@@ -31,12 +29,12 @@ public class GastoAdapter extends RecyclerView.Adapter<GastoAdapter.GastoVH> {
 
     @Override
     public void onBindViewHolder(@NonNull GastoVH holder, int position) {
-        holder.bindItem(grupo.getListaGastos().get(position));
+        holder.bindItem(grupo.getGastoList().get(position));
     }
 
     @Override
     public int getItemCount() {
-        return grupo.getListaGastos().size();
+        return grupo.getGastoList().size();
     }
 
     public static class GastoVH extends RecyclerView.ViewHolder{

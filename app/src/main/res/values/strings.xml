@@ -41,5 +41,8 @@
     <string name="error_user_vacio">Debes introducir un username</string>
     <string name="error_no_participantes">Se debe introducir al menos un participante</string>
     <string name="info_grupo_add">Se ha creado el grupo \"%1$s\"</string>
+    <string name="label_nuevo_gasto">Nuevo gasto</string>
+    <string name="error_participante_no_existe">Ese participante no está en el grupo</string>
+    <string name="info_gasto_add">Gasto añadido con éxito</string>
 
 </resources>

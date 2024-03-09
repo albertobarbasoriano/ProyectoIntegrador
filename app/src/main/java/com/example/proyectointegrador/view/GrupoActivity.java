@@ -22,12 +22,12 @@ public class GrupoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityGrupoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         grupo = getIntent().getParcelableExtra("GRUPO");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(grupo.getTitulo());
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager(), grupo);
         ViewPager viewPager = binding.viewPager;
         viewPager.setAdapter(sectionsPagerAdapter);

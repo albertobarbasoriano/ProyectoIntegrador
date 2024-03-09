@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GruposActivity extends AppCompatActivity implements View.OnClickListener {
     FloatingActionButton btn;
@@ -85,7 +86,9 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         Grupo grupoResult = snapshot.getValue(Grupo.class);
-                        grupoResult.setListaGastos(new ArrayList<Gasto>());
+                        if (grupoResult.getListaGastos() == null){
+                            grupoResult.setListaGastos(new HashMap<String, Gasto>());
+                        }
                         grupos.add(grupoResult);
                         grupoAdapter.notifyDataSetChanged();
                     }

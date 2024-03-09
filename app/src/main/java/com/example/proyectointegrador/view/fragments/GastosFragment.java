@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +16,10 @@ import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.databinding.FragmentGastosBinding;
 import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
-import com.example.proyectointegrador.model.Participante;
-import com.example.proyectointegrador.view.GrupoActivity;
 import com.example.proyectointegrador.view.NuevoGastoActivity;
 import com.example.proyectointegrador.view.utils.recyclerview.GastoAdapter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class GastosFragment extends Fragment {
@@ -62,7 +57,7 @@ public class GastosFragment extends Fragment {
         );*/
 
         configurarRV(root);
-        if (grupo.getListaGastos() != null){
+        if (grupo.getGastoList() != null){
             updateBarraInferior();
         }else {
             binding.tvTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), new Double(0), grupo.formatDivisa()));
@@ -72,7 +67,9 @@ public class GastosFragment extends Fragment {
         binding.btnAddGasto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(root.getContext(), NuevoGastoActivity.class));
+                Intent i = new Intent(root.getContext(), NuevoGastoActivity.class);
+                i.putExtra("Grupo", grupo);
+                startActivity(i);
             }
         });
         return root;
@@ -80,7 +77,7 @@ public class GastosFragment extends Fragment {
 
     private void updateBarraInferior() {
         //UPDATE DEL GASTO TOTAL
-        List<Gasto> gastos = grupo.getListaGastos();
+        List<Gasto> gastos = grupo.getGastoList();
         double totalGrupo = 0;
         for(Gasto gasto : gastos){
             totalGrupo += gasto.getTotal();

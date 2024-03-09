@@ -6,26 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".view.NuevoGastoActivity">
 
-    <include
-        layout="@layout/toolbar_nuevo_gasto"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/mainMargin"
-        android:layout_marginTop="@dimen/gruposTop"
-        android:layout_marginEnd="@dimen/mainMargin"
-        android:layout_marginBottom="@dimen/mainMargin"
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margen"
+            android:layout_marginTop="@dimen/margen">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/globalTitulo"
                 android:hint="@string/globalTitulo"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -34,7 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="@dimen/mainMargin">
+            android:layout_marginHorizontal="@dimen/margen"
+            android:layout_marginTop="@dimen/margen">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
@@ -43,9 +39,10 @@
                 android:hint="@string/nuevoGastoCantidadHint">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCantidad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/nuevoGastoCantidadHint"
+                    android:inputType="numberDecimal"
                     android:hint="@string/nuevoGastoCantidadHint"/>
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -62,13 +59,13 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/mainMargin">
+            android:layout_marginHorizontal="@dimen/margen"
+            android:layout_marginTop="@dimen/margen">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/nuevoGastoFecha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/nuevoGastoFechaHint"
                 android:hint="@string/nuevoGastoFechaHint"/>
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -76,17 +73,19 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/mainMargin">
+            android:layout_marginHorizontal="@dimen/margen"
+            android:layout_marginTop="@dimen/margen">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPagador"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/nuevoGastoPagadoHint"
                 android:hint="@string/nuevoGastoPagadoHint"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvParticipantesGasto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/mainMargin"/>

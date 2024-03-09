@@ -14,6 +14,7 @@
         tools:targetApi="31">
         <activity
             android:name=".view.NuevoGastoActivity"
+            android:label="@string/label_nuevo_gasto"
             android:exported="false" />
         <activity
             android:name=".view.GruposActivity"
