@@ -10,29 +10,23 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.proyectointegrador.databinding.FragmentSaldosBinding;
-import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
+import com.example.proyectointegrador.view.utils.MyApp;
 import com.example.proyectointegrador.view.utils.recyclerview.GastoSaldoAdapter;
 import com.example.proyectointegrador.view.utils.recyclerview.ParticipanteSaldoAdapter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-
-public class SaldosFragment extends Fragment {
+public class SaldosFragment extends Fragment{
     private GastoSaldoAdapter gastoSaldoAdapter;
     private ParticipanteSaldoAdapter participanteSaldoAdapter;
     private LinearLayoutManager llmGastoSaldo, llmParticipanteSaldo;
     private FragmentSaldosBinding binding;
     private Grupo grupo;
+    public SaldosFragment() {}
 
-    public SaldosFragment(Grupo grupo) {
-        this.grupo = grupo;
-    }
 
-    public static SaldosFragment newInstance(Grupo grupo) {
-        SaldosFragment fragment = new SaldosFragment(grupo);
+
+    public static SaldosFragment newInstance() {
+        SaldosFragment fragment = new SaldosFragment();
         return fragment;
     }
 
@@ -41,28 +35,14 @@ public class SaldosFragment extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-
+        MyApp app = (MyApp) getActivity().getApplicationContext();
+        grupo = app.getGrupoSelec();
         binding = FragmentSaldosBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-
-
-        //TODO: ESTO HAY QUE BORRARLO
-        /*List<Gasto> gastoList = new ArrayList<>();
-        gastoList.add(new Gasto(new ArrayList<>(Arrays.asList(new String[]{"Prueba", "Prueba2"})), "Prueba", "Prueba", 10, "Prueba3"));
-        gastoList.add(new Gasto(new ArrayList<>(Arrays.asList(new String[]{"Prueba3", "Prueba2"})), "Prueba", "Prueba", 10, "Prueba"));
-        grupo = new Grupo(
-                gastoList,
-                new ArrayList<>(Arrays.asList(new String[]{"Prueba", "Prueba2", "Prueba3"})),
-                "Prueba",
-                "Prueba",
-                "€"
-        );*/
-
         configurarRVs(root);
-
         return  root;
     }
+
 
     private void configurarRVs(View root) {
         gastoSaldoAdapter = new GastoSaldoAdapter(grupo);
@@ -82,4 +62,6 @@ public class SaldosFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+
 }

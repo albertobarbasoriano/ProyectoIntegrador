@@ -3,7 +3,7 @@ package com.example.proyectointegrador.view;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.example.proyectointegrador.model.Grupo;
+import com.example.proyectointegrador.view.utils.MyApp;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
@@ -14,28 +14,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.proyectointegrador.view.utils.SectionsPagerAdapter;
 import com.example.proyectointegrador.databinding.ActivityGrupoBinding;
 
-public class GrupoActivity extends AppCompatActivity {
+public class GrupoActivity extends AppCompatActivity  {
 
     private ActivityGrupoBinding binding;
-    private Grupo grupo;
+    private String key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyApp app = (MyApp) getApplicationContext();
         binding = ActivityGrupoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        grupo = getIntent().getParcelableExtra("GRUPO");
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(grupo.getTitulo());
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager(), grupo);
+        getSupportActionBar().setTitle(app.getGrupoSelec().getTitulo());
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = binding.viewPager;
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = binding.tabs;
         tabs.setupWithViewPager(viewPager);
 
     }
-
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home){
@@ -43,4 +41,7 @@ public class GrupoActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }

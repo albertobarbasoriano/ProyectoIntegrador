@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Grupo implements Parcelable{
+public class Grupo{
     private List<Gasto> gastoList;
     private Map<String, Gasto> listaGastos;
     private List<String> listaParticipantes;
@@ -27,27 +27,6 @@ public class Grupo implements Parcelable{
         this.divisa = divisa;
     }
 
-
-    protected Grupo(Parcel in) {
-        gastoList = in.createTypedArrayList(Gasto.CREATOR);
-        listaParticipantes = in.createStringArrayList();
-        titulo = in.readString();
-        descripcion = in.readString();
-        divisa = in.readString();
-        key = in.readString();
-    }
-
-    public static final Creator<Grupo> CREATOR = new Creator<Grupo>() {
-        @Override
-        public Grupo createFromParcel(Parcel in) {
-            return new Grupo(in);
-        }
-
-        @Override
-        public Grupo[] newArray(int size) {
-            return new Grupo[size];
-        }
-    };
 
     public List<Gasto> getGastoList() {
         return gastoList;
@@ -139,7 +118,7 @@ public class Grupo implements Parcelable{
         String participante = listaParticipantes.get(position);
         for(Gasto gasto : gastoList){
             if (gasto.getPagador().equals(participante)){
-                saldo += gasto.getTotal();
+                saldo += gasto.getTotal() - gasto.calcularPago();
             }
         }
        Map<String, Double> deudas = getDeudas().get(participante);
@@ -150,9 +129,6 @@ public class Grupo implements Parcelable{
 
         return saldo;
     }
-
-
-
 
     public String formatDivisa() {
         switch (divisa){
@@ -169,18 +145,4 @@ public class Grupo implements Parcelable{
         }
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeTypedList(gastoList);
-        dest.writeStringList(listaParticipantes);
-        dest.writeString(titulo);
-        dest.writeString(descripcion);
-        dest.writeString(divisa);
-        dest.writeString(key);
-    }
 }

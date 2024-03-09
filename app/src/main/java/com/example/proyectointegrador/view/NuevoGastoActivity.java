@@ -10,13 +10,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
+import com.example.proyectointegrador.view.utils.MyApp;
 import com.example.proyectointegrador.view.utils.recyclerview.ParticipanteGastoAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,7 +44,9 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        grupo = getIntent().getParcelableExtra("Grupo");
+        MyApp app = (MyApp) getApplicationContext();
+        grupo = app.getGrupoSelec();
+
         participantesGasto = new ArrayList<>();
 
         spnCantidad = findViewById(R.id.nuevoGastoSpinnerCantidad);
@@ -149,6 +151,22 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
     private void guardarGasto() {
         String titulo = etTitulo.getText().toString().trim();
         String fecha = tietFecha.getText().toString().trim();
+        if (gasto.getTotal() == 0){
+            String cantidadSt = etCantidad.getText().toString().trim();
+            if (cantidadSt.isEmpty()) {
+
+            } else {
+                try {
+                    double cantidad = Double.parseDouble(cantidadSt);
+                    if (cantidad >= 0) {
+                        gasto.setTotal(cantidad);
+                    }
+                } catch (NumberFormatException e) {
+
+                }
+            }
+        }
+
         if (titulo.isEmpty() || fecha.isEmpty()){
 
         }else{

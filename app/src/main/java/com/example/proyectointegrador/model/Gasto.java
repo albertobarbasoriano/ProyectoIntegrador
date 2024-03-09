@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Gasto implements Parcelable{
+public class Gasto {
     private Map<String, Integer> participantes;
     private String titulo,  pagador, fecha, divisa, key;
     private double total;
@@ -25,27 +25,6 @@ public class Gasto implements Parcelable{
     public Gasto() {
     }
 
-
-    protected Gasto(Parcel in) {
-        titulo = in.readString();
-        pagador = in.readString();
-        fecha = in.readString();
-        divisa = in.readString();
-        key = in.readString();
-        total = in.readDouble();
-    }
-
-    public static final Creator<Gasto> CREATOR = new Creator<Gasto>() {
-        @Override
-        public Gasto createFromParcel(Parcel in) {
-            return new Gasto(in);
-        }
-
-        @Override
-        public Gasto[] newArray(int size) {
-            return new Gasto[size];
-        }
-    };
 
     public void initParticipantes(List<String> participantes) {
         this.participantes = new HashMap<>();
@@ -130,19 +109,4 @@ public class Gasto implements Parcelable{
         }
     }
 
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(titulo);
-        dest.writeString(pagador);
-        dest.writeString(fecha);
-        dest.writeString(divisa);
-        dest.writeString(key);
-        dest.writeDouble(total);
-    }
 }

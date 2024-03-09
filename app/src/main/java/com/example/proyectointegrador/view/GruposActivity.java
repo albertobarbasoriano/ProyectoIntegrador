@@ -8,12 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
+import com.example.proyectointegrador.view.utils.MyApp;
 import com.example.proyectointegrador.view.utils.recyclerview.GrupoAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -68,6 +67,7 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
                         for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                             addInfoGrupo(childSnapshot.getKey());
                         }
+
                     }
 
                     @Override
@@ -77,6 +77,8 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
                 });
 
     }
+
+
 
     private void addInfoGrupo(String key) {
         FirebaseDatabase.getInstance()
@@ -89,8 +91,26 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
                         if (grupoResult.getListaGastos() == null){
                             grupoResult.setListaGastos(new HashMap<String, Gasto>());
                         }
-                        grupos.add(grupoResult);
+                        if (!grupos.isEmpty()){
+                            Grupo update = null;
+                            for (Grupo g: grupos){
+                                if (g.getKey().equals(grupoResult.getKey())){
+                                    update = g;
+                                    break;
+                                }
+                            }
+                            if (update != null){
+                                int index = grupos.indexOf(update);
+                                grupos.set(index, grupoResult);
+                                grupos.remove(update);
+                            }else {
+                                grupos.add(grupoResult);
+                            }
+                        }else {
+                            grupos.add(grupoResult);
+                        }
                         grupoAdapter.notifyDataSetChanged();
+
                     }
 
                     @Override
@@ -103,8 +123,9 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         Grupo grupo = ((GrupoAdapter) rv.getAdapter()).getGrupos().get(rv.getChildAdapterPosition(v));
+        MyApp myApp = (MyApp) getApplicationContext();
+        myApp.setGrupoSelec(grupo);
         Intent i = new Intent(GruposActivity.this, GrupoActivity.class);
-        i.putExtra("GRUPO", grupo);
         startActivity(i);
     }
 }

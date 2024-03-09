@@ -17,24 +17,30 @@ import com.example.proyectointegrador.databinding.FragmentGastosBinding;
 import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
 import com.example.proyectointegrador.view.NuevoGastoActivity;
+import com.example.proyectointegrador.view.utils.MyApp;
 import com.example.proyectointegrador.view.utils.recyclerview.GastoAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GastosFragment extends Fragment {
+public class GastosFragment extends Fragment{
     private GastoAdapter adapter;
     private LinearLayoutManager llm;
     private FragmentGastosBinding binding;
     private Grupo grupo;
+    MyApp app;
 
-    public GastosFragment(Grupo grupo) {
-        this.grupo = grupo;
+    public GastosFragment() {
     }
 
-    public static GastosFragment newInstance(Grupo grupo) {
-        GastosFragment fragment = new GastosFragment(grupo);
 
+    public static GastosFragment newInstance() {
+        GastosFragment fragment = new GastosFragment();
         return fragment;
     }
 
@@ -44,65 +50,57 @@ public class GastosFragment extends Fragment {
         binding = FragmentGastosBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        //TODO: ESTO HAY QUE BORRARLO
-        /*List<Gasto> gastoList = new ArrayList<>();
-        gastoList.add(new Gasto(new ArrayList<>(Arrays.asList(new String[]{"Prueba", "Prueba2"})), "Prueba", "Prueba", 10, "Prueba3"));
-        gastoList.add(new Gasto(new ArrayList<>(Arrays.asList(new String[]{"Prueba3", "Prueba2"})), "Prueba", "Prueba", 10, "Prueba"));
-        grupo = new Grupo(
-                gastoList,
-                new ArrayList<>(Arrays.asList(new String[]{"Prueba", "Prueba2", "Prueba3"})),
-                "Prueba",
-                "Prueba",
-                "€"
-        );*/
-
+        app = (MyApp) getActivity().getApplicationContext();
+        grupo = app.getGrupoSelec();
         configurarRV(root);
-        if (grupo.getGastoList() != null){
+        if (grupo.getListaGastos() != null){
             updateBarraInferior();
         }else {
             binding.tvTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), new Double(0), grupo.formatDivisa()));
             binding.tvMiTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), new Double(0), grupo.formatDivisa()));
         }
-
         binding.btnAddGasto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(root.getContext(), NuevoGastoActivity.class);
-                i.putExtra("Grupo", grupo);
                 startActivity(i);
             }
         });
+
         return root;
     }
 
     private void updateBarraInferior() {
-        //UPDATE DEL GASTO TOTAL
-        List<Gasto> gastos = grupo.getGastoList();
-        double totalGrupo = 0;
-        for(Gasto gasto : gastos){
-            totalGrupo += gasto.getTotal();
-        }
-        binding.tvTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), totalGrupo, grupo.formatDivisa()));
+        if (grupo != null) {
+            //UPDATE DEL GASTO TOTAL
+            List<Gasto> gastos = grupo.getGastoList();
+            double totalGrupo = 0;
+            for (Gasto gasto : gastos) {
+                totalGrupo += gasto.getTotal();
+            }
+            binding.tvTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), totalGrupo, grupo.formatDivisa()));
 
-        //UPDATE DEL GASTO PERSONAL
-        double gastoPersonal = 0;
-        for(Gasto gasto: gastos){
-            if (gasto.getPagador().equals("Creador")){ //TODO: Cambiar 'Prueba' por el nombre del usuario loggeado
-                gastoPersonal += gasto.calcularPago();
-            }else{
-                List<String> participantes = new ArrayList<>(gasto.getParticipantes().keySet());
-                if (participantes != null){
-                    for (String participanteNombre : participantes){
-                        if (participanteNombre.equals("Creador")){ //TODO: Cambiar 'Prueba' por el nombre del usuario loggeado
-                            gastoPersonal += gasto.calcularPago();
-                            break;
+            //UPDATE DEL GASTO PERSONAL
+            double gastoPersonal = 0;
+            for (Gasto gasto : gastos) {
+                if (gasto.getPagador().equals("Creador")) { //TODO: Cambiar 'Prueba' por el nombre del usuario loggeado
+                    gastoPersonal += gasto.calcularPago();
+                } else {
+                    List<String> participantes = new ArrayList<>(gasto.getParticipantes().keySet());
+                    if (participantes != null) {
+                        for (String participanteNombre : participantes) {
+                            if (participanteNombre.equals("Creador")) { //TODO: Cambiar 'Prueba' por el nombre del usuario loggeado
+                                gastoPersonal += gasto.calcularPago();
+                                break;
+                            }
                         }
                     }
-                }
 
+                }
             }
+            binding.tvMiTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), gastoPersonal, grupo.formatDivisa()));
         }
-        binding.tvMiTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), gastoPersonal, grupo.formatDivisa()));
+
     }
 
     private void configurarRV(View root) {
@@ -118,4 +116,6 @@ public class GastosFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+
 }

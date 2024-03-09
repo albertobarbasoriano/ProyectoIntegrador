@@ -10,12 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectointegrador.R;
-import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class GastoSaldoAdapter extends RecyclerView.Adapter<GastoSaldoAdapter.GastoSaldoVH> {
