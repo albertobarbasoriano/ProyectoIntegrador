@@ -25,6 +25,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class NuevoGastoActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -32,6 +33,7 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
     private TextInputEditText tietFecha, etTitulo, etCantidad, etPagador;
     private Grupo grupo;
     private Gasto gasto;
+    MyApp app;
     private ArrayList<String> participantesGasto;
     private LinearLayoutManager llm;
     private ParticipanteGastoAdapter participanteGastoAdapter;
@@ -44,7 +46,7 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        MyApp app = (MyApp) getApplicationContext();
+        app = (MyApp) getApplicationContext();
         grupo = app.getGrupoSelec();
 
         participantesGasto = new ArrayList<>();
@@ -88,19 +90,7 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    String cantidadSt = etCantidad.getText().toString().trim();
-                    if (cantidadSt.isEmpty()) {
-
-                    } else {
-                        try {
-                            double cantidad = Double.parseDouble(cantidadSt);
-                            if (cantidad >= 0) {
-                                gasto.setTotal(cantidad);
-                            }
-                        } catch (NumberFormatException e) {
-
-                        }
-                    }
+                    checkCantidad();
                 }
             }
         });
@@ -151,25 +141,12 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
     private void guardarGasto() {
         String titulo = etTitulo.getText().toString().trim();
         String fecha = tietFecha.getText().toString().trim();
-        if (gasto.getTotal() == 0){
-            String cantidadSt = etCantidad.getText().toString().trim();
-            if (cantidadSt.isEmpty()) {
+        if (gasto.getTotal() == 0)
+            checkCantidad();
 
-            } else {
-                try {
-                    double cantidad = Double.parseDouble(cantidadSt);
-                    if (cantidad >= 0) {
-                        gasto.setTotal(cantidad);
-                    }
-                } catch (NumberFormatException e) {
+        if (titulo.isEmpty() || fecha.isEmpty()) {
 
-                }
-            }
-        }
-
-        if (titulo.isEmpty() || fecha.isEmpty()){
-
-        }else{
+        } else {
             gasto.setTitulo(titulo);
             gasto.setFecha(fecha);
             gasto.setKey(FirebaseDatabase.getInstance().getReference(NuevoGrupoActivity.DB_PATH_GRUPOS).child(grupo.getKey()).child("listaGastos").push().getKey());
@@ -180,8 +157,13 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
                     .setValue(gasto).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 Toast.makeText(NuevoGastoActivity.this, R.string.info_gasto_add, Toast.LENGTH_SHORT).show();
+                                Map<String, Gasto> mapaGastos = grupo.getListaGastos();
+                                mapaGastos.put(gasto.getKey(), gasto);
+                                grupo.setListaGastos(mapaGastos);
+                                app.setGrupoSelec(grupo);
+                                setResult(RESULT_OK);
                                 finish();
                             }
                         }
@@ -192,6 +174,25 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
                         }
                     });
         }
+    }
+
+    private void checkCantidad() {
+        String cantidadSt = etCantidad.getText().toString().trim();
+        if (cantidadSt.isEmpty()) {
+            Toast.makeText(this, R.string.error_no_cantidad, Toast.LENGTH_SHORT).show();
+        } else {
+            try {
+                double cantidad = Double.parseDouble(cantidadSt);
+                if (cantidad >= 0) {
+                    gasto.setTotal(cantidad);
+                } else {
+                    Toast.makeText(this, R.string.error_cantidad_0, Toast.LENGTH_SHORT).show();
+                }
+            } catch (NumberFormatException e) {
+
+            }
+        }
+
     }
 
     @Override

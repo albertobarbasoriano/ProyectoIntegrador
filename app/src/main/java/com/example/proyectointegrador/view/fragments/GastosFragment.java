@@ -1,8 +1,13 @@
 package com.example.proyectointegrador.view.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -19,26 +24,28 @@ import com.example.proyectointegrador.model.Grupo;
 import com.example.proyectointegrador.view.NuevoGastoActivity;
 import com.example.proyectointegrador.view.utils.MyApp;
 import com.example.proyectointegrador.view.utils.recyclerview.GastoAdapter;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GastosFragment extends Fragment{
+public class GastosFragment extends Fragment {
     private GastoAdapter adapter;
     private LinearLayoutManager llm;
     private FragmentGastosBinding binding;
     private Grupo grupo;
     MyApp app;
+    ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult o) {
+            if (o.getResultCode() == Activity.RESULT_OK){
+                grupo = app.getGrupoSelec();
+                adapter.notifyDataSetChanged();
+            }
+        }
+    });
 
-    public GastosFragment() {
-    }
-
-
+    public GastosFragment() {}
     public static GastosFragment newInstance() {
         GastosFragment fragment = new GastosFragment();
         return fragment;
@@ -63,7 +70,7 @@ public class GastosFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(root.getContext(), NuevoGastoActivity.class);
-                startActivity(i);
+                startActivityForResult.launch(i);
             }
         });
 
@@ -116,6 +123,7 @@ public class GastosFragment extends Fragment{
         super.onDestroyView();
         binding = null;
     }
+
 
 
 }
