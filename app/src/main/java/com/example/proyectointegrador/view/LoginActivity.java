@@ -95,8 +95,6 @@ public class LoginActivity extends AppCompatActivity {
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressBar.setVisibility(View.GONE);
-
                                 if (task.isSuccessful()) {
                                     lookForUser(email);
                                 } else {
@@ -118,23 +116,24 @@ public class LoginActivity extends AppCompatActivity {
                 .orderByChild("email")
                 .equalTo(email)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.i("lookForUser().onDataChange:", "Estamos en el onDataChange");
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    Participante participante = dataSnapshot.getValue(Participante.class);
-                    app.setLoggedParticipante(participante);
-                    Toast.makeText(getApplicationContext(), R.string.login_successful, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, GruposActivity.class);
-                    startActivity(intent);
-                }
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Log.i("lookForUser().onDataChange:", "Estamos en el onDataChange");
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            Participante participante = dataSnapshot.getValue(Participante.class);
+                            app.setLoggedParticipante(participante);
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(getApplicationContext(), R.string.login_successful, Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginActivity.this, GruposActivity.class);
+                            startActivity(intent);
+                        }
 
-            }
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                    }
+                });
     }
 }

@@ -60,7 +60,6 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
         declararGasto();
         setListeners();
 
-
         // Creacion
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.nuevoGastoCantidades, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -91,6 +90,8 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     checkCantidad();
+                    if (participanteGastoAdapter != null)
+                        participanteGastoAdapter.notifyDataSetChanged();
                 }
             }
         });
@@ -118,7 +119,7 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void declararGasto() {
-        gasto = new Gasto(participantesGasto, null, 0, ""); //TODO: establecer el usuario loggeado
+        gasto = new Gasto(participantesGasto, null, 0, "");
         gasto.setDivisa(grupo.getDivisa());
     }
 
@@ -141,13 +142,13 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
     private void guardarGasto() {
         String titulo = etTitulo.getText().toString().trim();
         String fecha = tietFecha.getText().toString().trim();
-        if (gasto.getTotal() == 0){
+        if (gasto.getTotal() == 0) {
             checkCantidad();
-        }else if (titulo.isEmpty() || fecha.isEmpty() || gasto.getPagador().isEmpty()) {
+        } else if (titulo.isEmpty() || fecha.isEmpty() || gasto.getPagador().isEmpty()) {
             Toast.makeText(app, R.string.error_campos_obligatorios, Toast.LENGTH_SHORT).show();
-        }else if (participantesGasto.isEmpty()){
+        } else if (participantesGasto.isEmpty()) {
             Toast.makeText(app, R.string.error_no_participantes, Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             gasto.setTitulo(titulo);
             gasto.setFecha(fecha);
             gasto.setKey(FirebaseDatabase.getInstance().getReference(NuevoGrupoActivity.DB_PATH_GRUPOS).child(grupo.getKey()).child("listaGastos").push().getKey());

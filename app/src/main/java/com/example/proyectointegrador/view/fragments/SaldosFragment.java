@@ -1,5 +1,6 @@
 package com.example.proyectointegrador.view.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ public class SaldosFragment extends Fragment {
     private LinearLayoutManager llmGastoSaldo, llmParticipanteSaldo;
     private FragmentSaldosBinding binding;
     private Grupo grupo;
+    private MyApp app;
 
     public SaldosFragment() {
     }
@@ -36,7 +38,7 @@ public class SaldosFragment extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        MyApp app = (MyApp) getActivity().getApplicationContext();
+        app = (MyApp) getActivity().getApplicationContext();
         grupo = app.getGrupoSelec();
         binding = FragmentSaldosBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -48,6 +50,7 @@ public class SaldosFragment extends Fragment {
     private void configurarRVs(View root) {
         gastoSaldoAdapter = new GastoSaldoAdapter(grupo);
         participanteSaldoAdapter = new ParticipanteSaldoAdapter(grupo);
+
         llmGastoSaldo = new LinearLayoutManager(root.getContext());
         llmParticipanteSaldo = new LinearLayoutManager(root.getContext());
         binding.rvResumenGastos.setLayoutManager(llmGastoSaldo);
@@ -65,4 +68,9 @@ public class SaldosFragment extends Fragment {
     }
 
 
+    public void update() {
+        grupo = app.getGrupoSelec();
+        participanteSaldoAdapter.notifyDataSetChanged();
+        gastoSaldoAdapter.notifyDataSetChanged();
+    }
 }

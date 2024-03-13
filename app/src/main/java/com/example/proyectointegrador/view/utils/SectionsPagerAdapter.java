@@ -12,17 +12,13 @@ import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.view.fragments.GastosFragment;
 import com.example.proyectointegrador.view.fragments.SaldosFragment;
 
-/**
- * A [FragmentPagerAdapter] that returns a fragment corresponding to
- * one of the sections/tabs/pages.
- */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_gastos, R.string.tab_saldos};
     private final Context mContext;
-
-
+    private GastosFragment gastosFragment;
+    private SaldosFragment saldosFragment;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
@@ -32,11 +28,12 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment.
         if (position == 0){
-            return GastosFragment.newInstance();
+            gastosFragment = GastosFragment.newInstance();
+            return gastosFragment;
         }else{
-            return SaldosFragment.newInstance();
+            saldosFragment = SaldosFragment.newInstance();
+            return saldosFragment;
         }
 
     }
@@ -51,5 +48,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         // Show 2 total pages.
         return 2;
+    }
+
+    public GastosFragment getGastosFragment() {
+        return gastosFragment;
+    }
+
+    public SaldosFragment getSaldosFragment() {
+        return saldosFragment;
     }
 }

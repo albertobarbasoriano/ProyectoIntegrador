@@ -25,7 +25,6 @@ public class ParticipanteGastoAdapter extends RecyclerView.Adapter<ParticipanteG
     public ParticipanteGastoAdapter(List<String> participantes, Gasto gasto) {
         this.participantes = participantes;
         this.gasto = gasto;
-        participantes.remove(gasto.getPagador());
     }
 
     @NonNull
@@ -38,13 +37,12 @@ public class ParticipanteGastoAdapter extends RecyclerView.Adapter<ParticipanteG
 
     @Override
     public void onBindViewHolder(@NonNull ParticipanteGastoVH holder, int position) {
-        if (!participantes.get(position).equals(gasto.getPagador()))
-            holder.bindItem(participantes.get(position), gasto);
+        holder.bindItem(participantes.get(position), gasto);
     }
 
     @Override
     public int getItemCount() {
-        return participantes.size() ;
+        return participantes.size();
     }
 
     public List<String> getParticipantes() {
@@ -76,21 +74,25 @@ public class ParticipanteGastoAdapter extends RecyclerView.Adapter<ParticipanteG
         void bindItem(String nombre, Gasto gasto) {
             tvNombre.setText(nombre);
             double deuda = 0;
-            if (gasto.getParticipantes().containsKey(nombre)){
+            if (nombre.equals(gasto.getPagador())) {
                 deuda = gasto.calcularPago();
                 cb.setChecked(true);
-            }else{
-                cb.setChecked(false);
+                cb.setEnabled(false);
+            }
+
+            if (gasto.getParticipantes().containsKey(nombre)) {
+                deuda = gasto.calcularPago();
             }
             tvDeuda.setText(String.format(v.getContext().getString(R.string.text_coste_gasto), deuda, gasto.formatDivisa()));
-            cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (callback != null) {
-                        callback.onCheckedChanged(nombre, isChecked);
+            if (!nombre.equals(gasto.getPagador()))
+                cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (callback != null) {
+                            callback.onCheckedChanged(nombre, isChecked);
+                        }
                     }
-                }
-            });
+                });
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.proyectointegrador.view.fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -23,6 +24,7 @@ import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
 import com.example.proyectointegrador.view.NuevoGastoActivity;
 import com.example.proyectointegrador.view.utils.MyApp;
+import com.example.proyectointegrador.view.utils.fragments.OnGastosFragmentListener;
 import com.example.proyectointegrador.view.utils.recyclerview.GastoAdapter;
 
 import java.util.ArrayList;
@@ -33,18 +35,9 @@ public class GastosFragment extends Fragment {
     private LinearLayoutManager llm;
     private FragmentGastosBinding binding;
     private Grupo grupo;
-    MyApp app;
-    ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult o) {
-            if (o.getResultCode() == Activity.RESULT_OK){
-                grupo = app.getGrupoSelec();
-                updateBarraInferior();
-                adapter.notifyDataSetChanged();
-            }
-        }
-    });
+    private OnGastosFragmentListener listener;
+    private MyApp app;
+
 
     public GastosFragment() {}
     public static GastosFragment newInstance() {
@@ -70,8 +63,7 @@ public class GastosFragment extends Fragment {
         binding.btnAddGasto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(root.getContext(), NuevoGastoActivity.class);
-                startActivityForResult.launch(i);
+                listener.launchNuevoGrupo();
             }
         });
 
@@ -110,7 +102,6 @@ public class GastosFragment extends Fragment {
         }
 
     }
-
     private void configurarRV(View root) {
         adapter = new GastoAdapter(grupo);
         llm = new LinearLayoutManager(root.getContext());
@@ -125,6 +116,22 @@ public class GastosFragment extends Fragment {
         binding = null;
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnGastosFragmentListener)
+            listener = (OnGastosFragmentListener) context;
+    }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
 
+    public void update() {
+        grupo = app.getGrupoSelec();
+        updateBarraInferior();
+        adapter.notifyDataSetChanged();
+    }
 }
