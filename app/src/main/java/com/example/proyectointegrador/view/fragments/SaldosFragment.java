@@ -15,14 +15,15 @@ import com.example.proyectointegrador.view.utils.MyApp;
 import com.example.proyectointegrador.view.utils.recyclerview.GastoSaldoAdapter;
 import com.example.proyectointegrador.view.utils.recyclerview.ParticipanteSaldoAdapter;
 
-public class SaldosFragment extends Fragment{
+public class SaldosFragment extends Fragment {
     private GastoSaldoAdapter gastoSaldoAdapter;
     private ParticipanteSaldoAdapter participanteSaldoAdapter;
     private LinearLayoutManager llmGastoSaldo, llmParticipanteSaldo;
     private FragmentSaldosBinding binding;
     private Grupo grupo;
-    public SaldosFragment() {}
 
+    public SaldosFragment() {
+    }
 
 
     public static SaldosFragment newInstance() {
@@ -40,7 +41,7 @@ public class SaldosFragment extends Fragment{
         binding = FragmentSaldosBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         configurarRVs(root);
-        return  root;
+        return root;
     }
 
 

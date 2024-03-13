@@ -145,4 +145,11 @@ public class Grupo{
         }
     }
 
+    public void addParticipante(Participante participante){
+        listaParticipantes.add(participante.getNombre());
+    }
+    public void removeParticipante(Participante participante){
+        listaParticipantes.remove(participante.getNombre());
+    }
+
 }

@@ -9,13 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectointegrador.R;
+import com.example.proyectointegrador.model.Participante;
 
 import java.util.ArrayList;
 
 public class ParticipanteGrupoAdapter extends RecyclerView.Adapter<ParticipanteGrupoAdapter.ParticipanteGrupoVH> {
-    ArrayList<String> participantes;
+    ArrayList<Participante> participantes;
 
-    public ParticipanteGrupoAdapter(ArrayList<String> participantes) {
+    public ParticipanteGrupoAdapter(ArrayList<Participante> participantes) {
         this.participantes = participantes;
     }
 
@@ -37,13 +38,18 @@ public class ParticipanteGrupoAdapter extends RecyclerView.Adapter<ParticipanteG
         return participantes.size();
     }
 
-    public static class ParticipanteGrupoVH extends RecyclerView.ViewHolder{
-        TextView tvParticipante;
+    public static class ParticipanteGrupoVH extends RecyclerView.ViewHolder {
+        TextView tvNombre, tvUsername;
+
         public ParticipanteGrupoVH(@NonNull View itemView) {
             super(itemView);
-            tvParticipante = itemView.findViewById(R.id.tvNombreParticipante);
+            tvNombre = itemView.findViewById(R.id.tvNombreParticipante);
+            tvUsername = itemView.findViewById(R.id.tvUsernameParticipante);
         }
 
-        public void bindItem(String nombre){tvParticipante.setText(nombre);}
+        public void bindItem(Participante participante) {
+            tvNombre.setText(participante.getNombre());
+            tvUsername.setText(participante.getUsername());
+        }
     }
 }

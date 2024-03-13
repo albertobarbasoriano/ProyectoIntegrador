@@ -66,7 +66,7 @@ public class GastoSaldoAdapter extends RecyclerView.Adapter<GastoSaldoAdapter.Ga
 
         public void bindItem(String participante1, String participante2, double deuda) {
             tvInfoDeuda.setText(String.format(v.getContext().getString(R.string.text_info_deuda), participante1, participante2));
-            tvValorDeuda.setText(String.format(v.getContext().getString(R.string.text_coste_gasto), deuda, grupo.getDivisa()));
+            tvValorDeuda.setText(String.format(v.getContext().getString(R.string.text_coste_gasto), deuda, grupo.formatDivisa()));
         }
     }
 }

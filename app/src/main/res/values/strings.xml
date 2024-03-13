@@ -46,5 +46,7 @@
     <string name="info_gasto_add">Gasto añadido con éxito</string>
     <string name="error_no_cantidad">Se debe introudcir una cantidad</string>
     <string name="error_cantidad_0">La cantidad introducida debe ser mayor que 0</string>
+    <string name="text_username_participante">(@%1$s)</string>
+    <string name="error_participante_no_existe_ddbb">No existe el usuario indicado</string>
 
 </resources>

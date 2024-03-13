@@ -59,7 +59,7 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
     private void consultarGrupos() {
         FirebaseDatabase.getInstance()
                 .getReference("Usuarios")
-                .child("Creador")
+                .child("Creador") //TODO: cambiar por usuario loggeado
                 .child("grupos")
                 .addValueEventListener(new ValueEventListener() {
                     @Override

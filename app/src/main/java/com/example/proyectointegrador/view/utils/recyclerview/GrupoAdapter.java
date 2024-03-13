@@ -34,7 +34,7 @@ public class GrupoAdapter extends RecyclerView.Adapter<GrupoAdapter.GrupoVH> imp
 
     @Override
     public void onBindViewHolder(@NonNull GrupoVH holder, int position) {
-        holder.bindItem(grupos.get(position).getTitulo());
+        holder.bindItem(grupos.get(position));
     }
 
     @Override
@@ -54,14 +54,16 @@ public class GrupoAdapter extends RecyclerView.Adapter<GrupoAdapter.GrupoVH> imp
     }
 
     public static  class GrupoVH extends RecyclerView.ViewHolder{
-        TextView tvNombre;
+        TextView tvNombre,tvDescripcion;
         public GrupoVH(@NonNull View itemView) {
             super(itemView);
             tvNombre = itemView.findViewById(R.id.tvNombreGrupo);
+            tvDescripcion = itemView.findViewById(R.id.tvDescripcionGrupo);
         }
 
-        public void bindItem(String nombre){
-            tvNombre.setText(nombre);
+        public void bindItem(Grupo grupo){
+            tvNombre.setText(grupo.getTitulo());
+            tvDescripcion.setText(grupo.getDescripcion());
         }
 
     }

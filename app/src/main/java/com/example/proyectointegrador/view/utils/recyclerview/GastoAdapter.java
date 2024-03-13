@@ -52,7 +52,7 @@ public class GastoAdapter extends RecyclerView.Adapter<GastoAdapter.GastoVH> {
             if(gasto != null){
                 tvTituloGasto.setText(gasto.getTitulo());
                 tvPagadoPor.setText(String.format(v.getContext().getString(R.string.text_pagado_por), gasto.getPagador()));
-                tvCosteGasto.setText(String.format(v.getContext().getString(R.string.text_coste_gasto), gasto.getTotal(), grupo.getDivisa()));
+                tvCosteGasto.setText(String.format(v.getContext().getString(R.string.text_coste_gasto), gasto.getTotal(), grupo.formatDivisa()));
                 tvFechaPago.setText(gasto.getFecha());
             }
         }
