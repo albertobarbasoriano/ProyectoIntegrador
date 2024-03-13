@@ -40,6 +40,7 @@ public class GastosFragment extends Fragment {
         public void onActivityResult(ActivityResult o) {
             if (o.getResultCode() == Activity.RESULT_OK){
                 grupo = app.getGrupoSelec();
+                updateBarraInferior();
                 adapter.notifyDataSetChanged();
             }
         }
@@ -90,13 +91,13 @@ public class GastosFragment extends Fragment {
             //UPDATE DEL GASTO PERSONAL
             double gastoPersonal = 0;
             for (Gasto gasto : gastos) {
-                if (gasto.getPagador().equals("Creador")) { //TODO: Cambiar 'Prueba' por el nombre del usuario loggeado
+                if (gasto.getPagador().equals(app.getLoggedParticipante().getNombre())) {
                     gastoPersonal += gasto.calcularPago();
                 } else {
                     List<String> participantes = new ArrayList<>(gasto.getParticipantes().keySet());
                     if (participantes != null) {
                         for (String participanteNombre : participantes) {
-                            if (participanteNombre.equals("Creador")) { //TODO: Cambiar 'Prueba' por el nombre del usuario loggeado
+                            if (participanteNombre.equals(app.getLoggedParticipante().getNombre())) {
                                 gastoPersonal += gasto.calcularPago();
                                 break;
                             }

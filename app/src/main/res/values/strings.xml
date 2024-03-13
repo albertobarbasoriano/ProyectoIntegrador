@@ -73,5 +73,7 @@
     <string name="introduce_nombre">Introduce el nombre</string>
     <string name="introduce_username">Introduce el nombre de ususario</string>
     <string name="password_coincidir">Las contraseñas deben de coincidir</string>
+    <string name="error_participante_added">El participante introducido ya está en el grupo.</string>
+    <string name="error_creador_added">Tú ya estás en el grupo.</string>
 
 </resources>

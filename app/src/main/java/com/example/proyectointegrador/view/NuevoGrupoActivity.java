@@ -18,6 +18,7 @@ import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
 import com.example.proyectointegrador.model.Participante;
+import com.example.proyectointegrador.view.utils.MyApp;
 import com.example.proyectointegrador.view.utils.recyclerview.ParticipanteGrupoAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -41,6 +42,7 @@ public class NuevoGrupoActivity extends AppCompatActivity {
     ParticipanteGrupoAdapter participanteGrupoAdapter;
     FirebaseDatabase db;
     RecyclerView rv;
+    MyApp app;
 
 
     @Override
@@ -52,6 +54,7 @@ public class NuevoGrupoActivity extends AppCompatActivity {
         db = FirebaseDatabase.getInstance();
         listaParticipantes = new ArrayList<>();
         grupo = new Grupo(new ArrayList<Gasto>(), new ArrayList<String>(), null, null, null);
+        app = (MyApp) getApplicationContext();
 
         spnDivisa = findViewById(R.id.spnDivisa);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.nuevoGastoCantidades, android.R.layout.simple_spinner_item);
@@ -76,36 +79,51 @@ public class NuevoGrupoActivity extends AppCompatActivity {
                 String usernameParticipante = etParticipante.getText().toString().trim();
                 if (usernameParticipante.isEmpty()) {
                     Toast.makeText(NuevoGrupoActivity.this, R.string.error_user_vacio, Toast.LENGTH_SHORT).show();
+                }else if(usernameParticipante.equals(app.getLoggedParticipante().getUsername())){
+                    Toast.makeText(app, R.string.error_creador_added, Toast.LENGTH_SHORT).show();
                 } else { //Comprobación de que el usuario existe en Firebase
                     FirebaseDatabase.getInstance()
                             .getReference("Usuarios")
                             .child(usernameParticipante)
                             .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            Participante participante = snapshot.getValue(Participante.class);
-                            if (participante != null){
-                                listaParticipantes.add(participante);
-                                grupo.addParticipante(participante);
-                                etParticipante.setText("");
-                                participanteGrupoAdapter.notifyDataSetChanged();
-                            }else{
-                                Toast.makeText(NuevoGrupoActivity.this, R.string.error_participante_no_existe_ddbb, Toast.LENGTH_SHORT).show();
-                            }
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        Participante participante = snapshot.getValue(Participante.class);
+                                        if (comprobarParticipante(participante)) {
+                                            Toast.makeText(app, R.string.error_participante_added, Toast.LENGTH_SHORT).show();
+                                        }else {
+                                            listaParticipantes.add(participante);
+                                            grupo.addParticipante(participante);
+                                            etParticipante.setText("");
+                                            participanteGrupoAdapter.notifyDataSetChanged();
+                                        }
 
-                        }
+                                    } else {
+                                        Toast.makeText(NuevoGrupoActivity.this, R.string.error_participante_no_existe_ddbb, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
-                        }
-                    });
+                                }
+                            });
 
                 }
             }
         });
 
 
+    }
+
+    private boolean comprobarParticipante(Participante participante) {
+        for (Participante current : listaParticipantes){
+            if (current.getUsername().equals(participante.getUsername())){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -130,10 +148,9 @@ public class NuevoGrupoActivity extends AppCompatActivity {
         } else if (listaParticipantes.isEmpty()) {
             Toast.makeText(this, R.string.error_no_participantes, Toast.LENGTH_SHORT).show();
         } else {
-            //TODO: Antes de guardar el grupo, se debe guardar al usuario que está creando el grupo como participante
-            grupo.addParticipante(new Participante("Creador", "Creador", null)); //TODO: este debe ser el usuario loggeado
+            grupo.addParticipante(app.getLoggedParticipante());
+            listaParticipantes.add(app.getLoggedParticipante());
             String key = db.getReference(DB_PATH_GRUPOS).push().getKey();
-            //grupo.setListaParticipantes(listaParticipantes);
             grupo.setTitulo(etTitulo.getText().toString().trim());
             grupo.setDescripcion(etDescripcion.getText().toString().trim());
             grupo.setDivisa(spnDivisa.getSelectedItem().toString());

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
+import com.example.proyectointegrador.model.Participante;
 import com.example.proyectointegrador.view.utils.MyApp;
 import com.example.proyectointegrador.view.utils.recyclerview.GrupoAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,6 +31,7 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
     LinearLayoutManager llm;
     RecyclerView rv;
     ArrayList<Grupo> grupos;
+    MyApp app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,7 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
         rv = findViewById(R.id.rvGrupos);
         llm = new LinearLayoutManager(this);
         grupoAdapter = new GrupoAdapter(grupos, this);
+        app = (MyApp) getApplicationContext();
         consultarGrupos();
         rv.setLayoutManager(llm);
         rv.setAdapter(grupoAdapter);
@@ -59,7 +62,7 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
     private void consultarGrupos() {
         FirebaseDatabase.getInstance()
                 .getReference("Usuarios")
-                .child("Creador") //TODO: cambiar por usuario loggeado
+                .child(app.getLoggedParticipante().getUsername())
                 .child("grupos")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
