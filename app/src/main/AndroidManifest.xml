@@ -14,12 +14,18 @@
         android:theme="@style/Theme.ProyectoIntegrador"
         tools:targetApi="31">
         <activity
-            android:name=".view.NuevoGastoActivity"
-            android:label="@string/label_nuevo_gasto"
+            android:name=".view.GruposActivity"
             android:exported="false" />
         <activity
-            android:name=".view.GruposActivity"
-            android:exported="true">
+            android:name=".view.RegistroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.NuevoGastoActivity"
+            android:exported="false"
+            android:label="@string/label_nuevo_gasto" />
+        <activity
+            android:name=".view.LoginActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,11 +34,11 @@
         </activity>
         <activity
             android:name=".view.NuevoGrupoActivity"
-            android:label="@string/label_nuevo_grupo"
-            android:exported="true"/>
+            android:exported="true"
+            android:label="@string/label_nuevo_grupo" />
         <activity
             android:name=".view.GrupoActivity"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -40,7 +40,7 @@ public class SaldosFragment extends Fragment{
         binding = FragmentSaldosBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         configurarRVs(root);
-        return  root;
+        return root;
     }
 
 
