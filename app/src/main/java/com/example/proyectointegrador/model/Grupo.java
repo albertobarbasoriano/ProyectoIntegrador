@@ -88,7 +88,7 @@ public class Grupo {
     //MÉTODOS
     public Map<String, Map<String, Double>> getDeudas() {
         Map<String, Map<String, Double>> mapaDeudas = new HashMap<>();
-        if (gastoList != null)
+        if (gastoList != null) {
             for (String participante : listaParticipantes) {
                 Map<String, Double> deudasParticipante = new HashMap<>();
                 for (Gasto gasto : gastoList) {
@@ -103,6 +103,8 @@ public class Grupo {
                 }
                 mapaDeudas.put(participante, deudasParticipante);
             }
+
+        }
         return mapaDeudas;
     }
 
@@ -153,8 +155,14 @@ public class Grupo {
         listaParticipantes.add(participante.getNombre());
     }
 
-    public void removeParticipante(Participante participante) {
-        listaParticipantes.remove(participante.getNombre());
+    public void pagarDeudas(String participante1, String participante2) {
+        if (listaGastos != null) {
+            for (Map.Entry<String, Gasto> entry : listaGastos.entrySet()) {
+                Gasto gasto = entry.getValue();
+                if (gasto.getPagador().equals(participante2) && gasto.getParticipantes().keySet().contains(participante1)) {
+                    gasto.getParticipantes().replace(participante1, 1);
+                }
+            }
+        }
     }
-
 }

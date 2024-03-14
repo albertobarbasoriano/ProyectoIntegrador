@@ -45,10 +45,6 @@ public class ParticipanteGastoAdapter extends RecyclerView.Adapter<ParticipanteG
         return participantes.size();
     }
 
-    public List<String> getParticipantes() {
-        return participantes;
-    }
-
     public void setCallback(Callback callback) {
         this.callback = callback;
     }

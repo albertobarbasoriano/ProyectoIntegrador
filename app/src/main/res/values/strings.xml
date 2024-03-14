@@ -75,5 +75,7 @@
     <string name="password_coincidir">Las contraseñas deben de coincidir</string>
     <string name="error_participante_added">El participante introducido ya está en el grupo.</string>
     <string name="error_creador_added">Tú ya estás en el grupo.</string>
+    <string name="pagado">Pagado</string>
+    <string name="no_pagado">Marcar como pagado</string>
 
 </resources>

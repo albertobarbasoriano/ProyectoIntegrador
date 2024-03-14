@@ -1,22 +1,21 @@
 package com.example.proyectointegrador.view;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.example.proyectointegrador.model.Deuda;
 import com.example.proyectointegrador.model.Grupo;
-import com.example.proyectointegrador.view.fragments.GastosFragment;
-import com.example.proyectointegrador.view.fragments.SaldosFragment;
 import com.example.proyectointegrador.view.utils.MyApp;
 import com.example.proyectointegrador.view.utils.fragments.OnGastosFragmentListener;
+import com.example.proyectointegrador.view.utils.fragments.OnSaldosFragmentListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,27 +29,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class GrupoActivity extends AppCompatActivity implements OnGastosFragmentListener {
+import java.util.ArrayList;
+import java.util.Map;
+
+public class GrupoActivity extends AppCompatActivity implements OnGastosFragmentListener, OnSaldosFragmentListener {
 
     private ActivityGrupoBinding binding;
     private SectionsPagerAdapter sectionsPagerAdapter;
     private DatabaseReference reference;
 
     private MyApp app;
-//    ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-//            new ActivityResultCallback<ActivityResult>() {
-//                @Override
-//                public void onActivityResult(ActivityResult o) {
-//                    if (o.getResultCode() == Activity.RESULT_OK) {
-//                        if (sectionsPagerAdapter.getGastosFragment() != null){
-//                            sectionsPagerAdapter.getGastosFragment().update();
-//                        }
-//                        if (sectionsPagerAdapter.getSaldosFragment() != null){
-//                            sectionsPagerAdapter.getSaldosFragment().update();
-//                        }
-//                    }
-//                }
-//            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,13 +66,13 @@ public class GrupoActivity extends AppCompatActivity implements OnGastosFragment
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.i("DDBBUpdate", "En el onDataChange");
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     Grupo grupoResult = snapshot.getValue(Grupo.class);
                     app.setGrupoSelec(grupoResult);
-                    if (sectionsPagerAdapter.getGastosFragment() != null){
+                    if (sectionsPagerAdapter.getGastosFragment() != null) {
                         sectionsPagerAdapter.getGastosFragment().update();
                     }
-                    if (sectionsPagerAdapter.getSaldosFragment() != null){
+                    if (sectionsPagerAdapter.getSaldosFragment() != null) {
                         sectionsPagerAdapter.getSaldosFragment().update();
                     }
                 }
@@ -95,6 +83,8 @@ public class GrupoActivity extends AppCompatActivity implements OnGastosFragment
 
             }
         });
+
+
     }
 
     @Override
@@ -111,4 +101,29 @@ public class GrupoActivity extends AppCompatActivity implements OnGastosFragment
         Intent i = new Intent(GrupoActivity.this, NuevoGastoActivity.class);
         startActivity(i);
     }
+
+    @Override
+    public void confirmarCambios(ArrayList<Deuda> deudasAPagar) {
+        Grupo grupo = app.getGrupoSelec();
+        for (Deuda deuda : deudasAPagar) {
+            grupo.pagarDeudas(deuda.getPaga(), deuda.getRecibe());
+        }
+        FirebaseDatabase.getInstance().getReference("Grupos")
+                .child(grupo.getKey()).child("listaGastos")
+                .setValue(grupo.getListaGastos()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    Toast.makeText(app, "Yupi", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(app, "sadgi", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 }

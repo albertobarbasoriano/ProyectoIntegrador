@@ -5,16 +5,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.proyectointegrador.databinding.FragmentSaldosBinding;
+import com.example.proyectointegrador.model.Deuda;
 import com.example.proyectointegrador.model.Grupo;
 import com.example.proyectointegrador.view.utils.MyApp;
+import com.example.proyectointegrador.view.utils.fragments.OnSaldosFragmentListener;
 import com.example.proyectointegrador.view.utils.recyclerview.GastoSaldoAdapter;
 import com.example.proyectointegrador.view.utils.recyclerview.ParticipanteSaldoAdapter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SaldosFragment extends Fragment {
     private GastoSaldoAdapter gastoSaldoAdapter;
@@ -23,6 +30,9 @@ public class SaldosFragment extends Fragment {
     private FragmentSaldosBinding binding;
     private Grupo grupo;
     private MyApp app;
+    private ArrayList<Deuda> deudasAPagar;
+    private Button btnConfirmar;
+    private OnSaldosFragmentListener listener;
 
     public SaldosFragment() {
     }
@@ -42,6 +52,14 @@ public class SaldosFragment extends Fragment {
         grupo = app.getGrupoSelec();
         binding = FragmentSaldosBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        deudasAPagar = new ArrayList<>();
+        btnConfirmar = binding.btnConfirmar;
+        btnConfirmar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.confirmarCambios(deudasAPagar);
+            }
+        });
         configurarRVs(root);
         return root;
     }
@@ -49,6 +67,20 @@ public class SaldosFragment extends Fragment {
 
     private void configurarRVs(View root) {
         gastoSaldoAdapter = new GastoSaldoAdapter(grupo);
+        gastoSaldoAdapter.setCallback(new GastoSaldoAdapter.Callback() {
+            @Override
+            public void onCheckedChanged(String participante1, String participante2, boolean isChecked) {
+                Deuda deuda = new Deuda(participante1, participante2);
+                if (isChecked)
+                    deudasAPagar.add(deuda);
+                else
+                    deudasAPagar.remove(deuda);
+                if (!deudasAPagar.isEmpty())
+                    btnConfirmar.setVisibility(View.VISIBLE);
+                else
+                    btnConfirmar.setVisibility(View.INVISIBLE);
+            }
+        });
         participanteSaldoAdapter = new ParticipanteSaldoAdapter(grupo);
         llmGastoSaldo = new LinearLayoutManager(root.getContext());
         llmParticipanteSaldo = new LinearLayoutManager(root.getContext());
@@ -66,6 +98,18 @@ public class SaldosFragment extends Fragment {
         binding = null;
     }
 
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof OnSaldosFragmentListener)
+            listener = (OnSaldosFragmentListener) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
 
     public void update() {
         grupo = app.getGrupoSelec();
