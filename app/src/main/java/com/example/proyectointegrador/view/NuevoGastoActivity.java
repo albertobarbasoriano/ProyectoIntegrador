@@ -25,6 +25,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class NuevoGastoActivity extends AppCompatActivity implements View.OnClickListener {
@@ -162,6 +163,8 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
                             if (task.isSuccessful()) {
                                 Toast.makeText(NuevoGastoActivity.this, R.string.info_gasto_add, Toast.LENGTH_SHORT).show();
                                 Map<String, Gasto> mapaGastos = grupo.getListaGastos();
+                                if (mapaGastos == null)
+                                    mapaGastos = new HashMap<String, Gasto>();
                                 mapaGastos.put(gasto.getKey(), gasto);
                                 grupo.setListaGastos(mapaGastos);
                                 app.setGrupoSelec(grupo);

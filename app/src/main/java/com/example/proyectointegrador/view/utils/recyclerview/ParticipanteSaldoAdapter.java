@@ -14,7 +14,7 @@ import com.example.proyectointegrador.model.Grupo;
 
 public class ParticipanteSaldoAdapter extends RecyclerView.Adapter<ParticipanteSaldoAdapter.ParticipanteSaldoVH> {
 
-    private static Grupo grupo;
+    private Grupo grupo;
 
     public ParticipanteSaldoAdapter(Grupo grupo) {
         this.grupo = grupo;
@@ -31,12 +31,16 @@ public class ParticipanteSaldoAdapter extends RecyclerView.Adapter<ParticipanteS
 
     @Override
     public void onBindViewHolder(@NonNull ParticipanteSaldoVH holder, int position) {
-        holder.bindItem(grupo.getListaParticipantes().get(position), grupo.calcularSaldo(position));
+        holder.bindItem(grupo.getListaParticipantes().get(position), grupo.calcularSaldo(position), grupo.formatDivisa());
     }
 
     @Override
     public int getItemCount() {
         return grupo.getListaParticipantes().size();
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
     }
 
     public static class ParticipanteSaldoVH extends RecyclerView.ViewHolder {
@@ -50,9 +54,9 @@ public class ParticipanteSaldoAdapter extends RecyclerView.Adapter<ParticipanteS
             tvSaldo = itemView.findViewById(R.id.tvBalanceSaldo);
         }
 
-        public void bindItem(String nombre, double saldo) {
+        public void bindItem(String nombre, double saldo, String divisa) {
             tvNombre.setText(nombre);
-            String saldoString = String.format(v.getContext().getString(R.string.text_coste_gasto), saldo, grupo.formatDivisa());
+            String saldoString = String.format(v.getContext().getString(R.string.text_coste_gasto), saldo, divisa);
             if (saldo > 0) {
                 saldoString = "+" + saldoString;
                 tvSaldo.setTextColor(v.getContext().getColor(R.color.verde_principal));

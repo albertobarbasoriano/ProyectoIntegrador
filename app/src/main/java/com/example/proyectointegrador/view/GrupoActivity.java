@@ -3,8 +3,10 @@ package com.example.proyectointegrador.view;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.proyectointegrador.model.Grupo;
 import com.example.proyectointegrador.view.fragments.GastosFragment;
 import com.example.proyectointegrador.view.fragments.SaldosFragment;
 import com.example.proyectointegrador.view.utils.MyApp;
@@ -22,27 +24,33 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.proyectointegrador.view.utils.SectionsPagerAdapter;
 import com.example.proyectointegrador.databinding.ActivityGrupoBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class GrupoActivity extends AppCompatActivity implements OnGastosFragmentListener {
 
     private ActivityGrupoBinding binding;
     private SectionsPagerAdapter sectionsPagerAdapter;
+    private DatabaseReference reference;
 
     private MyApp app;
-    ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult o) {
-                    if (o.getResultCode() == Activity.RESULT_OK) {
-                        if (sectionsPagerAdapter.getGastosFragment() != null){
-                            sectionsPagerAdapter.getGastosFragment().update();
-                        }
-                        if (sectionsPagerAdapter.getSaldosFragment() != null){
-                            sectionsPagerAdapter.getSaldosFragment().update();
-                        }
-                    }
-                }
-            });
+//    ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+//            new ActivityResultCallback<ActivityResult>() {
+//                @Override
+//                public void onActivityResult(ActivityResult o) {
+//                    if (o.getResultCode() == Activity.RESULT_OK) {
+//                        if (sectionsPagerAdapter.getGastosFragment() != null){
+//                            sectionsPagerAdapter.getGastosFragment().update();
+//                        }
+//                        if (sectionsPagerAdapter.getSaldosFragment() != null){
+//                            sectionsPagerAdapter.getSaldosFragment().update();
+//                        }
+//                    }
+//                }
+//            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +63,8 @@ public class GrupoActivity extends AppCompatActivity implements OnGastosFragment
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(app.getGrupoSelec().getTitulo());
 
+        reference = FirebaseDatabase.getInstance().getReference("Grupos").child(app.getGrupoSelec().getKey());
+
         sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
 
         ViewPager viewPager = binding.viewPager;
@@ -64,6 +74,27 @@ public class GrupoActivity extends AppCompatActivity implements OnGastosFragment
         tabs.setupWithViewPager(viewPager);
 
 
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.i("DDBBUpdate", "En el onDataChange");
+                if (snapshot.exists()){
+                    Grupo grupoResult = snapshot.getValue(Grupo.class);
+                    app.setGrupoSelec(grupoResult);
+                    if (sectionsPagerAdapter.getGastosFragment() != null){
+                        sectionsPagerAdapter.getGastosFragment().update();
+                    }
+                    if (sectionsPagerAdapter.getSaldosFragment() != null){
+                        sectionsPagerAdapter.getSaldosFragment().update();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @Override
@@ -78,6 +109,6 @@ public class GrupoActivity extends AppCompatActivity implements OnGastosFragment
     @Override
     public void launchNuevoGrupo() {
         Intent i = new Intent(GrupoActivity.this, NuevoGastoActivity.class);
-        startActivityForResult.launch(i);
+        startActivity(i);
     }
 }

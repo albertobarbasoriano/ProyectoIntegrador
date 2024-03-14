@@ -15,7 +15,7 @@ import com.example.proyectointegrador.model.Grupo;
 import java.util.Map;
 
 public class GastoSaldoAdapter extends RecyclerView.Adapter<GastoSaldoAdapter.GastoSaldoVH> {
-    private static Grupo grupo;
+    private Grupo grupo;
 
     public GastoSaldoAdapter(Grupo grupo) {
         this.grupo = grupo;
@@ -38,7 +38,7 @@ public class GastoSaldoAdapter extends RecyclerView.Adapter<GastoSaldoAdapter.Ga
         for (Map.Entry<String, Map<String, Double>> entry : mapaDeudas.entrySet()){
             for (Map.Entry<String, Double> entry1 : entry.getValue().entrySet()){
                 if (position == i) {
-                    holder.bindItem(entry.getKey(), entry1.getKey(), entry1.getValue());
+                    holder.bindItem(entry.getKey(), entry1.getKey(), entry1.getValue(), grupo.formatDivisa());
                 }
                 i++;
             }
@@ -49,6 +49,10 @@ public class GastoSaldoAdapter extends RecyclerView.Adapter<GastoSaldoAdapter.Ga
     @Override
     public int getItemCount() {
         return grupo.sizeDeudas(grupo.getDeudas());
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
     }
 
     public static class GastoSaldoVH extends RecyclerView.ViewHolder {
@@ -64,9 +68,9 @@ public class GastoSaldoAdapter extends RecyclerView.Adapter<GastoSaldoAdapter.Ga
             v = itemView;
         }
 
-        public void bindItem(String participante1, String participante2, double deuda) {
+        public void bindItem(String participante1, String participante2, double deuda, String divisa) {
             tvInfoDeuda.setText(String.format(v.getContext().getString(R.string.text_info_deuda), participante1, participante2));
-            tvValorDeuda.setText(String.format(v.getContext().getString(R.string.text_coste_gasto), deuda, grupo.formatDivisa()));
+            tvValorDeuda.setText(String.format(v.getContext().getString(R.string.text_coste_gasto), deuda, divisa));
         }
     }
 }

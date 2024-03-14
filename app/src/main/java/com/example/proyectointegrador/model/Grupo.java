@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Grupo{
+public class Grupo {
     private List<Gasto> gastoList;
     private Map<String, Gasto> listaGastos;
     private List<String> listaParticipantes;
@@ -86,52 +86,56 @@ public class Grupo{
     }
 
     //MÉTODOS
-    public Map<String, Map<String, Double>> getDeudas(){
+    public Map<String, Map<String, Double>> getDeudas() {
         Map<String, Map<String, Double>> mapaDeudas = new HashMap<>();
-        for (String participante : listaParticipantes){
-            Map<String, Double> deudasParticipante = new HashMap<>();
-            for (Gasto gasto : gastoList) {
-                if (gasto.getParticipantes().containsKey(participante) && gasto.getParticipantes().get(participante) == 0) {
-                    if (deudasParticipante.containsKey(gasto.getPagador())) {
-                        double tmp = deudasParticipante.get(gasto.getPagador());
-                        deudasParticipante.replace(gasto.getPagador(), tmp + gasto.calcularPago());
-                    } else {
-                        deudasParticipante.put(gasto.getPagador(), gasto.calcularPago());
+        if (gastoList != null)
+            for (String participante : listaParticipantes) {
+                Map<String, Double> deudasParticipante = new HashMap<>();
+                for (Gasto gasto : gastoList) {
+                    if (gasto.getParticipantes().containsKey(participante) && gasto.getParticipantes().get(participante) == 0) {
+                        if (deudasParticipante.containsKey(gasto.getPagador())) {
+                            double tmp = deudasParticipante.get(gasto.getPagador());
+                            deudasParticipante.replace(gasto.getPagador(), tmp + gasto.calcularPago());
+                        } else {
+                            deudasParticipante.put(gasto.getPagador(), gasto.calcularPago());
+                        }
                     }
                 }
+                mapaDeudas.put(participante, deudasParticipante);
             }
-            mapaDeudas.put(participante, deudasParticipante);
-        }
         return mapaDeudas;
     }
 
-    public int sizeDeudas(Map<String, Map<String, Double>> mapaDeudas){
+    public int sizeDeudas(Map<String, Map<String, Double>> mapaDeudas) {
         int size = 0;
-        for (Map.Entry<String, Map<String, Double>> entry : mapaDeudas.entrySet()){
-            size += entry.getValue().size();
-        }
+        if (mapaDeudas != null)
+            for (Map.Entry<String, Map<String, Double>> entry : mapaDeudas.entrySet()) {
+                size += entry.getValue().size();
+            }
         return size;
     }
 
     public double calcularSaldo(int position) {
         double saldo = 0;
         String participante = listaParticipantes.get(position);
-        for(Gasto gasto : gastoList){
-            if (gasto.getPagador().equals(participante)){
-                saldo += gasto.getTotal() - gasto.calcularPago();
+        if (gastoList != null)
+            for (Gasto gasto : gastoList) {
+                if (gasto.getPagador().equals(participante)) {
+                    saldo += gasto.getTotal() - gasto.calcularPago();
+                }
             }
-        }
-       Map<String, Double> deudas = getDeudas().get(participante);
 
-        for (Map.Entry<String, Double> entry : deudas.entrySet()){
-            saldo -= entry.getValue();
-        }
+        Map<String, Double> deudas = getDeudas().get(participante);
+        if (deudas != null)
+            for (Map.Entry<String, Double> entry : deudas.entrySet()) {
+                saldo -= entry.getValue();
+            }
 
         return saldo;
     }
 
     public String formatDivisa() {
-        switch (divisa){
+        switch (divisa) {
             case "EUR":
                 return "€";
             case "DOL":
@@ -145,10 +149,11 @@ public class Grupo{
         }
     }
 
-    public void addParticipante(Participante participante){
+    public void addParticipante(Participante participante) {
         listaParticipantes.add(participante.getNombre());
     }
-    public void removeParticipante(Participante participante){
+
+    public void removeParticipante(Participante participante) {
         listaParticipantes.remove(participante.getNombre());
     }
 

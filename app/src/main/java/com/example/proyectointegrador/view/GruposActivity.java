@@ -60,23 +60,25 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void consultarGrupos() {
-        FirebaseDatabase.getInstance()
-                .getReference("Usuarios")
-                .child(app.getLoggedParticipante().getUsername())
-                .child("grupos")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        grupos.clear();
-                        for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-                            addInfoGrupo(childSnapshot.getKey());
+        if (app.getLoggedParticipante() != null)
+            FirebaseDatabase.getInstance()
+                    .getReference("Usuarios")
+                    .child(app.getLoggedParticipante().getUsername())
+                    .child("grupos")
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            grupos.clear();
+                            for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                                addInfoGrupo(childSnapshot.getKey());
+                            }
                         }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(GruposActivity.this, R.string.error_algo_mal, Toast.LENGTH_SHORT).show();
-                    }
-                });
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(GruposActivity.this, R.string.error_algo_mal, Toast.LENGTH_SHORT).show();
+                        }
+                    });
     }
 
 

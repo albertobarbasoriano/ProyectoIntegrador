@@ -13,7 +13,7 @@ import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
 
 public class GastoAdapter extends RecyclerView.Adapter<GastoAdapter.GastoVH> {
-    private static Grupo grupo;
+    private Grupo grupo;
 
     public GastoAdapter(Grupo grupo){
         this.grupo = grupo;
@@ -34,7 +34,14 @@ public class GastoAdapter extends RecyclerView.Adapter<GastoAdapter.GastoVH> {
 
     @Override
     public int getItemCount() {
-        return grupo.getGastoList().size();
+        if (grupo.getGastoList() != null)
+            return grupo.getGastoList().size();
+        else
+            return 0;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
     }
 
     public static class GastoVH extends RecyclerView.ViewHolder{
@@ -52,7 +59,7 @@ public class GastoAdapter extends RecyclerView.Adapter<GastoAdapter.GastoVH> {
             if(gasto != null){
                 tvTituloGasto.setText(gasto.getTitulo());
                 tvPagadoPor.setText(String.format(v.getContext().getString(R.string.text_pagado_por), gasto.getPagador()));
-                tvCosteGasto.setText(String.format(v.getContext().getString(R.string.text_coste_gasto), gasto.getTotal(), grupo.formatDivisa()));
+                tvCosteGasto.setText(String.format(v.getContext().getString(R.string.text_coste_gasto), gasto.getTotal(), gasto.formatDivisa()));
                 tvFechaPago.setText(gasto.getFecha());
             }
         }

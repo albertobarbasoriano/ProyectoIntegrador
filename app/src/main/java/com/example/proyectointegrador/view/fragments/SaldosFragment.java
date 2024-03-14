@@ -50,7 +50,6 @@ public class SaldosFragment extends Fragment {
     private void configurarRVs(View root) {
         gastoSaldoAdapter = new GastoSaldoAdapter(grupo);
         participanteSaldoAdapter = new ParticipanteSaldoAdapter(grupo);
-
         llmGastoSaldo = new LinearLayoutManager(root.getContext());
         llmParticipanteSaldo = new LinearLayoutManager(root.getContext());
         binding.rvResumenGastos.setLayoutManager(llmGastoSaldo);
@@ -70,6 +69,8 @@ public class SaldosFragment extends Fragment {
 
     public void update() {
         grupo = app.getGrupoSelec();
+        participanteSaldoAdapter.setGrupo(grupo);
+        gastoSaldoAdapter.setGrupo(grupo);
         participanteSaldoAdapter.notifyDataSetChanged();
         gastoSaldoAdapter.notifyDataSetChanged();
     }
