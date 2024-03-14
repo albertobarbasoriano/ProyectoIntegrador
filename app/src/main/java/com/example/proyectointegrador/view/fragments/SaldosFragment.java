@@ -58,6 +58,7 @@ public class SaldosFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 listener.confirmarCambios(deudasAPagar);
+                btnConfirmar.setVisibility(View.GONE);
             }
         });
         configurarRVs(root);
@@ -73,12 +74,21 @@ public class SaldosFragment extends Fragment {
                 Deuda deuda = new Deuda(participante1, participante2);
                 if (isChecked)
                     deudasAPagar.add(deuda);
-                else
-                    deudasAPagar.remove(deuda);
+                else {
+                    int i = 0, indice = 0;
+                    for (Deuda check : deudasAPagar) {
+                        if (check.getPaga().equals(deuda.getPaga()) && check.getRecibe().equals(deuda.getRecibe())) {
+                            indice = i;
+                            break;
+                        }
+                        i++;
+                    }
+                    deudasAPagar.remove(indice);
+                }
                 if (!deudasAPagar.isEmpty())
                     btnConfirmar.setVisibility(View.VISIBLE);
                 else
-                    btnConfirmar.setVisibility(View.INVISIBLE);
+                    btnConfirmar.setVisibility(View.GONE);
             }
         });
         participanteSaldoAdapter = new ParticipanteSaldoAdapter(grupo);

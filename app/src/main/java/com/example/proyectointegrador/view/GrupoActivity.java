@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.model.Deuda;
 import com.example.proyectointegrador.model.Grupo;
 import com.example.proyectointegrador.view.utils.MyApp;
@@ -114,13 +115,13 @@ public class GrupoActivity extends AppCompatActivity implements OnGastosFragment
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()){
-                    Toast.makeText(app, "Yupi", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(app, R.string.info_operacion_completada, Toast.LENGTH_SHORT).show();
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(app, "sadgi", Toast.LENGTH_SHORT).show();
+                Toast.makeText(app, R.string.error_algo_mal, Toast.LENGTH_SHORT).show();
             }
         });
     }

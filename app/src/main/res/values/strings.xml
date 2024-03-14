@@ -77,5 +77,6 @@
     <string name="error_creador_added">Tú ya estás en el grupo.</string>
     <string name="pagado">Pagado</string>
     <string name="no_pagado">Marcar como pagado</string>
+    <string name="info_operacion_completada">Operación completada con éxito</string>
 
 </resources>

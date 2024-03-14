@@ -123,7 +123,10 @@ public class Grupo {
         if (gastoList != null)
             for (Gasto gasto : gastoList) {
                 if (gasto.getPagador().equals(participante)) {
-                    saldo += gasto.getTotal() - gasto.calcularPago();
+                    for (Map.Entry<String, Integer> entry: gasto.getParticipantes().entrySet()){
+                        if (entry.getValue() == 0)
+                            saldo += gasto.calcularPago();
+                    }
                 }
             }
 
