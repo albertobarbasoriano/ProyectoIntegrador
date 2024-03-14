@@ -101,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                     Toast.makeText(LoginActivity.this, R.string.autenticacion_fallida,
                                             Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
 
                                 }
                             }

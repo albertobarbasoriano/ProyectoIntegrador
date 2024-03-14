@@ -63,6 +63,7 @@ public class RegistroActivity extends AppCompatActivity {
         btnRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
                 String nombre = String.valueOf(etNombre.getText());
                 String username = String.valueOf(etUsuario.getText());
                 String email = String.valueOf(etEmail.getText());
@@ -75,26 +76,31 @@ public class RegistroActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(nombre)) {
 
                     progressBar.setVisibility(View.GONE);
+
                     Toast.makeText(RegistroActivity.this, R.string.introduce_nombre, Toast.LENGTH_LONG).show();
 
                 } else if (TextUtils.isEmpty(username)) {
 
                     progressBar.setVisibility(View.GONE);
+
                     Toast.makeText(RegistroActivity.this, R.string.introduce_username, Toast.LENGTH_LONG).show();
 
                 } else if (TextUtils.isEmpty(email)) {
 
                     progressBar.setVisibility(View.GONE);
+
                     Toast.makeText(RegistroActivity.this, R.string.introduce_email, Toast.LENGTH_LONG).show();
 
                 } else if (TextUtils.isEmpty(password)) {
 
                     progressBar.setVisibility(View.GONE);
+
                     Toast.makeText(RegistroActivity.this, R.string.introduce_password, Toast.LENGTH_LONG).show();
 
                 } else if (TextUtils.isEmpty(confPassword)) {
 
                     progressBar.setVisibility(View.GONE);
+
                     Toast.makeText(RegistroActivity.this, R.string.introduce_confPassword, Toast.LENGTH_LONG).show();
 
                 } else if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(confPassword) && !TextUtils.isEmpty(username) && !TextUtils.isEmpty(nombre)) {
@@ -104,9 +110,10 @@ public class RegistroActivity extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if (snapshot.exists()) {
+                                    progressBar.setVisibility(View.GONE);
                                     Toast.makeText(RegistroActivity.this, R.string.usuario_existente, Toast.LENGTH_SHORT).show();
                                 } else {
-                                    progressBar.setVisibility(View.VISIBLE);
+
                                     mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
