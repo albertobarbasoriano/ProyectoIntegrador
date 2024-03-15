@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
 import com.example.proyectointegrador.utils.MyApp;
 import com.example.proyectointegrador.utils.recyclerview.GrupoAdapter;
+import com.example.proyectointegrador.view.dialog.DialogListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -28,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class GruposActivity extends AppCompatActivity implements View.OnClickListener {
+public class GruposActivity extends AppCompatActivity implements View.OnClickListener, DialogListener {
     FloatingActionButton btn;
     GrupoAdapter grupoAdapter;
     LinearLayoutManager llm;
@@ -158,5 +160,10 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
                 finish();
             }
         }
+    }
+
+    @Override
+    public void removeListener(boolean remove) {
+        Log.e("caac", "dasfdsfds");
     }
 }
