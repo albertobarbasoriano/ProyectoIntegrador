@@ -14,6 +14,12 @@
         android:theme="@style/Theme.ProyectoIntegrador"
         tools:targetApi="31">
         <activity
+            android:name=".view.dialog.RemoveDialogFragment"
+            android:exported="false" />
+        <activity
+            android:name=".view.PerfilActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.GruposActivity"
             android:exported="false" />
         <activity
@@ -25,7 +31,7 @@
             android:label="@string/label_nuevo_gasto" />
         <activity
             android:name=".view.LoginActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

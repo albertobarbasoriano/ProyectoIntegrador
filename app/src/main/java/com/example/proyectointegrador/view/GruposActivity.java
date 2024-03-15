@@ -1,12 +1,14 @@
 package com.example.proyectointegrador.view;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
 import com.example.proyectointegrador.utils.MyApp;
 import com.example.proyectointegrador.utils.recyclerview.GrupoAdapter;
+import com.example.proyectointegrador.view.dialog.DialogListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -27,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class GruposActivity extends AppCompatActivity implements View.OnClickListener {
+public class GruposActivity extends AppCompatActivity implements View.OnClickListener, DialogListener {
     FloatingActionButton btn;
     GrupoAdapter grupoAdapter;
     LinearLayoutManager llm;
@@ -139,12 +142,28 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.mnCerrarSesion) {
-            FirebaseAuth.getInstance().signOut();
-            finish();
+        if (item.getItemId() == R.id.mnPerfil) {
+            Intent i = new Intent(GruposActivity.this, PerfilActivity.class);
+            startActivityForResult(i, 1);
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == 1 && resultCode == PerfilActivity.RESULT_OK) {
+            // Comprueba si el usuario ha cerrado sesión
+            boolean logout = data.getBooleanExtra("logout", false);
+            if (logout) {
+                finish();
+            }
+        }
+    }
+
+    @Override
+    public void removeListener(boolean remove) {
+        Log.e("caac", "dasfdsfds");
+    }
 }
