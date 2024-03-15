@@ -5,12 +5,13 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".view.dialog.RemoveDialogFragment"
+    tools:context=".utils.dialogs.RemoveDialogFragment"
+    android:padding="@dimen/margen"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/dialogRemove"/>
+        android:text="@string/removeDialog"/>
 
 </LinearLayout>

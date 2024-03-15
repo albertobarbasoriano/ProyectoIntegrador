@@ -56,20 +56,9 @@ public class PerfilActivity extends AppCompatActivity {
     }
 
     private void cargarDatos(){
-        reference.child("Usuarios").child(app.getLoggedParticipante().getUsername()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tvNombreUsuario.setText(dataSnapshot.child("username").getValue(String.class));
-                tvNombre.setText(dataSnapshot.child("nombre").getValue(String.class));
-                tvEmail.setText(dataSnapshot.child("email").getValue(String.class));
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Este método se activa si ocurre un error durante la lectura de datos
-                Log.e("FirebaseError", "Error al leer datos: " + databaseError.getMessage());
-            }
-        });
+        tvNombreUsuario.setText(app.getLoggedParticipante().getUsername());
+        tvNombre.setText(app.getLoggedParticipante().getNombre());
+        tvEmail.setText(app.getLoggedParticipante().getEmail());
 
     }
 

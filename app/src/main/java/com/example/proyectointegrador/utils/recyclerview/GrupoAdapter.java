@@ -1,6 +1,5 @@
 package com.example.proyectointegrador.utils.recyclerview;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.model.Grupo;
-import com.example.proyectointegrador.view.dialog.RemoveDialogFragment;
+import com.example.proyectointegrador.utils.dialogs.RemoveDialogFragment;
 
 import java.util.ArrayList;
 
@@ -19,18 +18,20 @@ public class GrupoAdapter extends RecyclerView.Adapter<GrupoAdapter.GrupoVH> imp
 
     ArrayList<Grupo> grupos;
     View.OnClickListener listener;
+    View.OnLongClickListener onLongClickListener;
 
-    public GrupoAdapter(ArrayList<Grupo> grupos, View.OnClickListener listener) {
+    public GrupoAdapter(ArrayList<Grupo> grupos, View.OnClickListener listener, View.OnLongClickListener onLongClickListener) {
         this.grupos = grupos;
         this.listener = listener;
+        this.onLongClickListener = onLongClickListener;
     }
 
     @NonNull
     @Override
     public GrupoVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_grupo, parent, false);
-        v.setOnClickListener(this);
-        v.setOnLongClickListener(this);
+        v.setOnClickListener(listener);
+        v.setOnLongClickListener(onLongClickListener);
         GrupoVH gvh = new GrupoVH(v);
         return gvh;
     }
@@ -58,8 +59,7 @@ public class GrupoAdapter extends RecyclerView.Adapter<GrupoAdapter.GrupoVH> imp
 
     @Override
     public boolean onLongClick(View v) {
-        RemoveDialogFragment rdf = new RemoveDialogFragment();
-        rdf.show();
+        onLongClickListener.onLongClick(v);
         return true;
     }
 

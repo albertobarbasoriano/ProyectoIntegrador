@@ -84,5 +84,6 @@
     <string name="removeTitle">Eliminar grupo</string>
     <string name="removeAceptar">Aceptar</string>
     <string name="removeCancelar">Cancelar</string>
+    <string name="info_grupo_borrado">Se ha borrado el grupo correctamente</string>
 
 </resources>

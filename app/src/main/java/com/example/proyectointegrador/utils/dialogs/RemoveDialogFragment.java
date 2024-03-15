@@ -1,4 +1,4 @@
-package com.example.proyectointegrador.view.dialog;
+package com.example.proyectointegrador.utils.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -7,23 +7,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.proyectointegrador.R;
+import com.example.proyectointegrador.model.Grupo;
 
 public class RemoveDialogFragment extends DialogFragment {
 
     DialogListener listener;
+    private Grupo grupo;
 
     @NonNull
     @Override
@@ -53,7 +49,9 @@ public class RemoveDialogFragment extends DialogFragment {
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        listener.removeListener(true);
+                        Log.i("RemoveDialogFragment", "Datos enviados: " + grupo.getTitulo() + true);
+                        listener.removeListener(grupo, true);
+                        dismiss();
                     }
                 });
             }
@@ -79,5 +77,9 @@ public class RemoveDialogFragment extends DialogFragment {
         if (listener != null) {
             listener = null;
         }
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
     }
 }

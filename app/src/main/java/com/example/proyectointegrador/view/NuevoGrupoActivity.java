@@ -178,9 +178,6 @@ public class NuevoGrupoActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         Toast.makeText(NuevoGrupoActivity.this, String.format(getString(R.string.info_grupo_add), grupo.getTitulo()), Toast.LENGTH_SHORT).show();
-//                        etTitulo.setText("");
-//                        etDescripcion.setText("");
-//                        spnDivisa.setSelection(0);
                         finish();
                     }
                 }
@@ -193,7 +190,10 @@ public class NuevoGrupoActivity extends AppCompatActivity {
             //Actualizamos los grupos a los que pertenecen los usuarios
             DatabaseReference reference = db.getReference("Usuarios");
             for (Participante participante : listaParticipantes) {
-                reference.child(participante.getUsername()).child("grupos").child(grupo.getKey()).setValue(false);
+                if (participante.equals(app.getLoggedParticipante().getUsername()))
+                    reference.child(participante.getUsername()).child("grupos").child(grupo.getKey()).setValue("creador");
+                else
+                    reference.child(participante.getUsername()).child("grupos").child(grupo.getKey()).setValue(false);
             }
             listaParticipantes.clear();
             participanteGrupoAdapter.notifyDataSetChanged();
