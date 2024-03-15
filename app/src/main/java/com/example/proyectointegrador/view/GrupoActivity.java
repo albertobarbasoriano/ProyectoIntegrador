@@ -9,9 +9,9 @@ import android.widget.Toast;
 import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.model.Deuda;
 import com.example.proyectointegrador.model.Grupo;
-import com.example.proyectointegrador.view.utils.MyApp;
-import com.example.proyectointegrador.view.utils.fragments.OnGastosFragmentListener;
-import com.example.proyectointegrador.view.utils.fragments.OnSaldosFragmentListener;
+import com.example.proyectointegrador.utils.MyApp;
+import com.example.proyectointegrador.utils.fragments.OnGastosFragmentListener;
+import com.example.proyectointegrador.utils.fragments.OnSaldosFragmentListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -22,7 +22,7 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import com.example.proyectointegrador.view.utils.SectionsPagerAdapter;
+import com.example.proyectointegrador.utils.SectionsPagerAdapter;
 import com.example.proyectointegrador.databinding.ActivityGrupoBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,7 +31,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class GrupoActivity extends AppCompatActivity implements OnGastosFragmentListener, OnSaldosFragmentListener {
 

@@ -5,19 +5,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
-import com.example.proyectointegrador.view.utils.MyApp;
-import com.example.proyectointegrador.view.utils.recyclerview.ParticipanteGastoAdapter;
+import com.example.proyectointegrador.utils.MyApp;
+import com.example.proyectointegrador.utils.dialogs.DatePickerFragment;
+import com.example.proyectointegrador.utils.recyclerview.ParticipanteGastoAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -28,10 +32,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NuevoGastoActivity extends AppCompatActivity implements View.OnClickListener {
+public class NuevoGastoActivity extends AppCompatActivity{
 
-    private Spinner spnCantidad;
-    private TextInputEditText tietFecha, etTitulo, etCantidad, etPagador;
+    private Spinner spnCantidad, spnPagador;
+    private TextInputEditText tietFecha, etTitulo, etCantidad;
     private Grupo grupo;
     private Gasto gasto;
     MyApp app;
@@ -56,35 +60,37 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
         tietFecha = findViewById(R.id.nuevoGastoFecha);
         etTitulo = findViewById(R.id.etTitulo);
         etCantidad = findViewById(R.id.etCantidad);
-        etPagador = findViewById(R.id.etPagador);
+        spnPagador = findViewById(R.id.spnPagador);
 
         declararGasto();
         setListeners();
 
-        // Creacion
+        // Creacioó spinner divisa
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.nuevoGastoCantidades, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spnCantidad.setAdapter(adapter);
 
-        tietFecha.setOnClickListener(this);
+        //Creación spinner pagador
+        ArrayAdapter<String > pagadorAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, grupo.getListaParticipantes().toArray(new String[grupo.getListaParticipantes().size()]));
+        pagadorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spnPagador.setAdapter(pagadorAdapter);
     }
 
     private void setListeners() {
-        etPagador.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        spnPagador.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && etPagador.isEnabled()) {
-                    if (grupo.getListaParticipantes().contains(etPagador.getText().toString().trim())) {
-                        gasto.setPagador(etPagador.getText().toString().trim());
-                        configRV();
-                        etPagador.setEnabled(false);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                gasto.setPagador(spnPagador.getSelectedItem().toString());
+                configRV();
+            }
 
-                    } else {
-                        Toast.makeText(NuevoGastoActivity.this, R.string.error_participante_no_existe, Toast.LENGTH_SHORT).show();
-                    }
-                }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
+
+
 
         etCantidad.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -94,6 +100,13 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
                     if (participanteGastoAdapter != null)
                         participanteGastoAdapter.notifyDataSetChanged();
                 }
+            }
+        });
+
+        tietFecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePicker();
             }
         });
     }
@@ -200,10 +213,16 @@ public class NuevoGastoActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.nuevoGastoFecha) {
 
-        }
+
+    private void showDatePicker() {
+        DatePickerFragment dpf = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                String fechaSeleccionada = dayOfMonth + "/" + (month+1) + "/" + year;
+                tietFecha.setText(fechaSeleccionada);
+            }
+        });
+        dpf.show(getSupportFragmentManager(), "datePicker");
     }
 }

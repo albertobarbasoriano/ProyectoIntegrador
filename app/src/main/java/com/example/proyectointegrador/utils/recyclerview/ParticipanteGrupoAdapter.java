@@ -1,4 +1,4 @@
-package com.example.proyectointegrador.view.utils.recyclerview;
+package com.example.proyectointegrador.utils.recyclerview;
 
 import android.view.LayoutInflater;
 import android.view.View;

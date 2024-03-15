@@ -1,14 +1,8 @@
 package com.example.proyectointegrador.view.fragments;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -22,10 +16,9 @@ import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.databinding.FragmentGastosBinding;
 import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
-import com.example.proyectointegrador.view.NuevoGastoActivity;
-import com.example.proyectointegrador.view.utils.MyApp;
-import com.example.proyectointegrador.view.utils.fragments.OnGastosFragmentListener;
-import com.example.proyectointegrador.view.utils.recyclerview.GastoAdapter;
+import com.example.proyectointegrador.utils.MyApp;
+import com.example.proyectointegrador.utils.fragments.OnGastosFragmentListener;
+import com.example.proyectointegrador.utils.recyclerview.GastoAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

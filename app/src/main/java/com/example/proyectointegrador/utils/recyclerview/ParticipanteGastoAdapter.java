@@ -1,4 +1,4 @@
-package com.example.proyectointegrador.view.utils.recyclerview;
+package com.example.proyectointegrador.utils.recyclerview;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +14,6 @@ import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.model.Gasto;
 
 import java.util.List;
-
-import javax.security.auth.callback.Callback;
 
 public class ParticipanteGastoAdapter extends RecyclerView.Adapter<ParticipanteGastoAdapter.ParticipanteGastoVH> {
     private List<String> participantes;

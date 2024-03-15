@@ -1,4 +1,4 @@
-package com.example.proyectointegrador.view.utils;
+package com.example.proyectointegrador.utils;
 
 import android.app.Application;
 

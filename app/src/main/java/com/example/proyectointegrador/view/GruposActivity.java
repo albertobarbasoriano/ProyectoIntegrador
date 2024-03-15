@@ -15,9 +15,8 @@ import android.widget.Toast;
 import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
-import com.example.proyectointegrador.model.Participante;
-import com.example.proyectointegrador.view.utils.MyApp;
-import com.example.proyectointegrador.view.utils.recyclerview.GrupoAdapter;
+import com.example.proyectointegrador.utils.MyApp;
+import com.example.proyectointegrador.utils.recyclerview.GrupoAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -40,7 +39,6 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grupos);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         grupos = new ArrayList<>();
         rv = findViewById(R.id.rvGrupos);
@@ -143,9 +141,6 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.mnCerrarSesion) {
             FirebaseAuth.getInstance().signOut();
-
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
             finish();
         }
         return super.onOptionsItemSelected(item);

@@ -1,4 +1,4 @@
-package com.example.proyectointegrador.view.utils.fragments;
+package com.example.proyectointegrador.utils.fragments;
 
 import com.example.proyectointegrador.model.Deuda;
 

@@ -1,4 +1,4 @@
-package com.example.proyectointegrador.view.utils.fragments;
+package com.example.proyectointegrador.utils.fragments;
 
 public interface OnGastosFragmentListener {
     void launchNuevoGrupo();

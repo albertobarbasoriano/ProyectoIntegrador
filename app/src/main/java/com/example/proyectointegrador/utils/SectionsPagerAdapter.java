@@ -1,4 +1,4 @@
-package com.example.proyectointegrador.view.utils;
+package com.example.proyectointegrador.utils;
 
 import android.content.Context;
 
@@ -27,6 +27,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        // getItem is called to instantiate the fragment for the given page.
         if (position == 0){
             gastosFragment = GastosFragment.newInstance();
             return gastosFragment;

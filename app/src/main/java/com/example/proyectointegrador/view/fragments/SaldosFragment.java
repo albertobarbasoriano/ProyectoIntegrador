@@ -14,14 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.proyectointegrador.databinding.FragmentSaldosBinding;
 import com.example.proyectointegrador.model.Deuda;
 import com.example.proyectointegrador.model.Grupo;
-import com.example.proyectointegrador.view.utils.MyApp;
-import com.example.proyectointegrador.view.utils.fragments.OnSaldosFragmentListener;
-import com.example.proyectointegrador.view.utils.recyclerview.GastoSaldoAdapter;
-import com.example.proyectointegrador.view.utils.recyclerview.ParticipanteSaldoAdapter;
+import com.example.proyectointegrador.utils.MyApp;
+import com.example.proyectointegrador.utils.fragments.OnSaldosFragmentListener;
+import com.example.proyectointegrador.utils.recyclerview.GastoSaldoAdapter;
+import com.example.proyectointegrador.utils.recyclerview.ParticipanteSaldoAdapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SaldosFragment extends Fragment {
     private GastoSaldoAdapter gastoSaldoAdapter;

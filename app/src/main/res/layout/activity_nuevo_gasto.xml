@@ -66,23 +66,20 @@
                 android:id="@+id/nuevoGastoFecha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/nuevoGastoFechaHint"/>
+                android:hint="@string/nuevoGastoFechaHint"
+                android:focusable="false"
+                android:clickable="true"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
+
+        <Spinner
+            android:id="@+id/spnPagador"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margen"
-            android:layout_marginTop="@dimen/margen">
+            android:layout_marginTop="@dimen/margen"
+            android:layout_marginStart="@dimen/mainMargin"/>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPagador"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/nuevoGastoPagadoHint"/>
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvParticipantesGasto"

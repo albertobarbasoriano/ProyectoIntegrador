@@ -1,6 +1,5 @@
-package com.example.proyectointegrador.view.utils.recyclerview;
+package com.example.proyectointegrador.utils.recyclerview;
 
-import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
