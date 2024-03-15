@@ -79,5 +79,6 @@
     <string name="no_pagado">Marcar como pagado</string>
     <string name="info_operacion_completada">Operación completada con éxito</string>
     <string name="error_no_pagador">Se debe seleccionar un pagador</string>
+    <string name="cerrar_sesion">Cerrar Sesión</string>
 
 </resources>

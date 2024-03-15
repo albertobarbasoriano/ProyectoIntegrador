@@ -96,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     lookForUser(email);
+                                    limpiarCampos();
                                 } else {
 
                                     Toast.makeText(LoginActivity.this, R.string.autenticacion_fallida,
@@ -107,6 +108,11 @@ public class LoginActivity extends AppCompatActivity {
                         });
             }
         });
+    }
+
+    private void limpiarCampos() {
+        etEmail.setText("");
+        etPassword.setText("");
     }
 
     private void lookForUser(String email) {

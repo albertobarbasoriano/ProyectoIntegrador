@@ -1,6 +1,7 @@
 package com.example.proyectointegrador.view;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -139,12 +140,23 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.mnCerrarSesion) {
-            FirebaseAuth.getInstance().signOut();
-            finish();
+        if (item.getItemId() == R.id.mnPerfil) {
+            Intent i = new Intent(GruposActivity.this, PerfilActivity.class);
+            startActivityForResult(i, 1);
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == 1 && resultCode == PerfilActivity.RESULT_OK) {
+            // Comprueba si el usuario ha cerrado sesión
+            boolean logout = data.getBooleanExtra("logout", false);
+            if (logout) {
+                finish();
+            }
+        }
+    }
 }
