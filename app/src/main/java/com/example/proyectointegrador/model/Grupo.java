@@ -108,6 +108,48 @@ public class Grupo {
         return mapaDeudas;
     }
 
+    public static Map<String, Map<String, Double>> simplificarDeudas(Map<String, Map<String, Double>> deudasOriginal) {
+        Map<String, Map<String, Double>> deudasSimplificadas = new HashMap<>();
+
+        // Iteramos sobre cada par de participantes
+        for (Map.Entry<String, Map<String, Double>> entry : deudasOriginal.entrySet()) {
+            String deudor = entry.getKey();
+            Map<String, Double> deudasParticipantes = entry.getValue();
+
+            for (Map.Entry<String, Double> deudaEntry : deudasParticipantes.entrySet()) {
+                String participante = deudaEntry.getKey();
+                double deuda = deudaEntry.getValue();
+                if (deudasOriginal.containsKey(participante)) {
+                    if (deudasOriginal.get(participante).containsKey(deudor)) {
+                        if (deudasOriginal.get(participante).get(deudor) != 0) {//Participante también le debe al deudor
+                            double diferenciaDeudas = deuda - deudasOriginal.get(participante).get(deudor);
+                            if (diferenciaDeudas > 0) { //Deudor le debe más al participante
+                                if (!deudasSimplificadas.containsKey(deudor))
+                                    deudasSimplificadas.put(deudor, new HashMap<>());
+                                deudasSimplificadas.get(deudor).put(participante, diferenciaDeudas);
+                            } else if (diferenciaDeudas < 0) {//Participante le debe más al deudor
+                                if (!deudasSimplificadas.containsKey(participante))
+                                    deudasSimplificadas.put(participante, new HashMap<>());
+                                deudasSimplificadas.get(participante).put(deudor, -diferenciaDeudas); //Lo expresamos como un valor positivo
+                            } //Si es 0 no se deben nada
+                        }
+                    } else {//Participante no le debe nada a deudor
+                        if (!deudasSimplificadas.containsKey(deudor))
+                            deudasSimplificadas.put(deudor, new HashMap<>());
+                        deudasSimplificadas.get(deudor).put(participante, deuda); //La deuda se queda igual
+                    }
+                } else {
+                    if (!deudasSimplificadas.containsKey(deudor))
+                        deudasSimplificadas.put(deudor, new HashMap<>());
+                    deudasSimplificadas.get(deudor).put(participante, deuda);
+                }
+            }
+        }
+
+        return deudasSimplificadas;
+    }
+
+
     public int sizeDeudas(Map<String, Map<String, Double>> mapaDeudas) {
         int size = 0;
         if (mapaDeudas != null)
@@ -123,7 +165,7 @@ public class Grupo {
         if (gastoList != null)
             for (Gasto gasto : gastoList) {
                 if (gasto.getPagador().equals(participante)) {
-                    for (Map.Entry<String, Integer> entry: gasto.getParticipantes().entrySet()){
+                    for (Map.Entry<String, Integer> entry : gasto.getParticipantes().entrySet()) {
                         if (entry.getValue() == 0)
                             saldo += gasto.calcularPago();
                     }
@@ -157,6 +199,7 @@ public class Grupo {
     public void addParticipante(Participante participante) {
         listaParticipantes.add(participante.getNombre());
     }
+
     public void removeParticipante(Participante participante) {
         listaParticipantes.remove(participante.getNombre());
     }

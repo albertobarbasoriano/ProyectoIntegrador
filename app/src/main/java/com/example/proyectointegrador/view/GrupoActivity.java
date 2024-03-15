@@ -105,8 +105,9 @@ public class GrupoActivity extends AppCompatActivity implements OnGastosFragment
     @Override
     public void confirmarCambios(ArrayList<Deuda> deudasAPagar) {
         Grupo grupo = app.getGrupoSelec();
-        for (Deuda deuda : deudasAPagar) {
+        for (Deuda deuda : deudasAPagar) { //Como las deudas están simplificadas, al confirmar pagamos las deudas en ambos sentidos
             grupo.pagarDeudas(deuda.getPaga(), deuda.getRecibe());
+            grupo.pagarDeudas(deuda.getRecibe(), deuda.getPaga());
         }
         FirebaseDatabase.getInstance().getReference("Grupos")
                 .child(grupo.getKey()).child("listaGastos")

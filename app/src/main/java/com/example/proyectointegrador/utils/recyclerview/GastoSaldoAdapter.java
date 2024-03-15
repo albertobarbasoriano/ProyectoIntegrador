@@ -35,7 +35,7 @@ public class GastoSaldoAdapter extends RecyclerView.Adapter<GastoSaldoAdapter.Ga
     @Override
     public void onBindViewHolder(@NonNull GastoSaldoVH holder, int position) {
 
-        Map<String, Map<String, Double>> mapaDeudas = grupo.getDeudas();
+        Map<String, Map<String, Double>> mapaDeudas = Grupo.simplificarDeudas(grupo.getDeudas());
         int i = 0;
         for (Map.Entry<String, Map<String, Double>> entry : mapaDeudas.entrySet()){
             for (Map.Entry<String, Double> entry1 : entry.getValue().entrySet()){
@@ -49,7 +49,7 @@ public class GastoSaldoAdapter extends RecyclerView.Adapter<GastoSaldoAdapter.Ga
     }
     @Override
     public int getItemCount() {
-        return grupo.sizeDeudas(grupo.getDeudas());
+        return grupo.sizeDeudas(Grupo.simplificarDeudas(grupo.getDeudas()));
     }
 
     public void setGrupo(Grupo grupo) {
@@ -79,6 +79,7 @@ public class GastoSaldoAdapter extends RecyclerView.Adapter<GastoSaldoAdapter.Ga
         public void bindItem(String participante1, String participante2, double deuda, String divisa) {
             tvInfoDeuda.setText(String.format(v.getContext().getString(R.string.text_info_deuda), participante1, participante2));
             tvValorDeuda.setText(String.format(v.getContext().getString(R.string.text_coste_gasto), deuda, divisa));
+            checkBox.setChecked(false);
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -86,6 +87,7 @@ public class GastoSaldoAdapter extends RecyclerView.Adapter<GastoSaldoAdapter.Ga
                         checkBox.setText(R.string.pagado);
                     else
                         checkBox.setText(R.string.no_pagado);
+
                     if (callback != null){
                         callback.onCheckedChanged(participante1, participante2, isChecked);
                     }

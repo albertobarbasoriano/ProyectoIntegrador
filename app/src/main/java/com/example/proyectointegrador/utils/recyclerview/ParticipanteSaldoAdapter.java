@@ -62,7 +62,6 @@ public class ParticipanteSaldoAdapter extends RecyclerView.Adapter<ParticipanteS
             }else if(saldo == 0){
                 tvSaldo.setTextColor(v.getContext().getColor(R.color.black));
             }else {
-                saldoString = "-" + saldoString;
                 tvSaldo.setTextColor(v.getContext().getColor(R.color.rojo));
             }
             tvSaldo.setText(saldoString);

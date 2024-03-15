@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.databinding.FragmentGastosBinding;
@@ -30,7 +31,7 @@ public class GastosFragment extends Fragment {
     private Grupo grupo;
     private OnGastosFragmentListener listener;
     private MyApp app;
-
+    private TextView tvTotalCuenta, tvMiTotalCuenta;
 
     public GastosFragment() {
     }
@@ -45,6 +46,8 @@ public class GastosFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentGastosBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        tvTotalCuenta = binding.tvTotalCuenta;
+        tvMiTotalCuenta = binding.tvMiTotalCuenta;
 
         app = (MyApp) getActivity().getApplicationContext();
         grupo = app.getGrupoSelec();
@@ -52,8 +55,8 @@ public class GastosFragment extends Fragment {
         if (grupo.getListaGastos() != null) {
             updateBarraInferior();
         } else {
-            binding.tvTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), new Double(0), grupo.formatDivisa()));
-            binding.tvMiTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), new Double(0), grupo.formatDivisa()));
+            tvTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), new Double(0), grupo.formatDivisa()));
+            tvMiTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), new Double(0), grupo.formatDivisa()));
         }
         binding.btnAddGasto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +77,7 @@ public class GastosFragment extends Fragment {
                 for (Gasto gasto : gastos) {
                     totalGrupo += gasto.getTotal();
                 }
-            binding.tvTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), totalGrupo, grupo.formatDivisa()));
+            tvTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), totalGrupo, grupo.formatDivisa()));
 
             //UPDATE DEL GASTO PERSONAL
             double gastoPersonal = 0;
@@ -95,7 +98,7 @@ public class GastosFragment extends Fragment {
 
                     }
                 }
-            binding.tvMiTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), gastoPersonal, grupo.formatDivisa()));
+            tvMiTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), gastoPersonal, grupo.formatDivisa()));
         }
 
     }
