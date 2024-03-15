@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NuevoGastoActivity extends AppCompatActivity{
+public class NuevoGastoActivity extends AppCompatActivity {
 
     private Spinner spnCantidad, spnPagador;
     private TextInputEditText tietFecha, etTitulo, etCantidad;
@@ -65,15 +65,24 @@ public class NuevoGastoActivity extends AppCompatActivity{
         declararGasto();
         setListeners();
 
-        // Creacioó spinner divisa
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.nuevoGastoCantidades, android.R.layout.simple_spinner_item);
+        // Creación spinner divisa
+        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, new String[]{grupo.getDivisa()});
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spnCantidad.setAdapter(adapter);
+        spnCantidad.setEnabled(false);
 
         //Creación spinner pagador
-        ArrayAdapter<String > pagadorAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, grupo.getListaParticipantes().toArray(new String[grupo.getListaParticipantes().size()]));
+        String[] participantesArray = grupo.getListaParticipantes().toArray(new String[grupo.getListaParticipantes().size() + 1]);
+        participantesArray[participantesArray.length - 1] = getString(R.string.nuevoGastoPagadoHint);
+        ArrayAdapter<String> pagadorAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, participantesArray) {
+            @Override
+            public int getCount() {
+                return participantesArray.length - 1;
+            }
+        };
         pagadorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spnPagador.setAdapter(pagadorAdapter);
+        spnPagador.setSelection(participantesArray.length - 1);
     }
 
     private void setListeners() {
@@ -89,7 +98,6 @@ public class NuevoGastoActivity extends AppCompatActivity{
 
             }
         });
-
 
 
         etCantidad.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -158,9 +166,11 @@ public class NuevoGastoActivity extends AppCompatActivity{
         String fecha = tietFecha.getText().toString().trim();
         if (gasto.getTotal() == 0) {
             checkCantidad();
-        } else if (titulo.isEmpty() || fecha.isEmpty() || gasto.getPagador().isEmpty()) {
+        } else if (titulo.isEmpty() || fecha.isEmpty()) {
             Toast.makeText(app, R.string.error_campos_obligatorios, Toast.LENGTH_SHORT).show();
-        } else if (participantesGasto.isEmpty()) {
+        } else if (gasto.getPagador().equals(getString(R.string.nuevoGastoPagadoHint))) {
+            Toast.makeText(app, R.string.error_no_pagador, Toast.LENGTH_SHORT).show();
+        }else if (participantesGasto.isEmpty()) {
             Toast.makeText(app, R.string.error_no_participantes, Toast.LENGTH_SHORT).show();
         } else {
             gasto.setTitulo(titulo);
@@ -214,12 +224,11 @@ public class NuevoGastoActivity extends AppCompatActivity{
     }
 
 
-
     private void showDatePicker() {
         DatePickerFragment dpf = DatePickerFragment.newInstance(new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String fechaSeleccionada = dayOfMonth + "/" + (month+1) + "/" + year;
+                String fechaSeleccionada = dayOfMonth + "/" + (month + 1) + "/" + year;
                 tietFecha.setText(fechaSeleccionada);
             }
         });

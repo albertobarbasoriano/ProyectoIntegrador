@@ -157,6 +157,9 @@ public class Grupo {
     public void addParticipante(Participante participante) {
         listaParticipantes.add(participante.getNombre());
     }
+    public void removeParticipante(Participante participante) {
+        listaParticipantes.remove(participante.getNombre());
+    }
 
     public void pagarDeudas(String participante1, String participante2) {
         if (listaGastos != null) {
@@ -168,4 +171,6 @@ public class Grupo {
             }
         }
     }
+
+
 }

@@ -44,7 +44,7 @@
     <string name="label_nuevo_gasto">Nuevo gasto</string>
     <string name="error_participante_no_existe">Ese participante no está en el grupo</string>
     <string name="info_gasto_add">Gasto añadido con éxito</string>
-    <string name="error_no_cantidad">Se debe introudcir una cantidad</string>
+    <string name="error_no_cantidad">Se debe introducir una cantidad</string>
     <string name="error_cantidad_0">La cantidad introducida debe ser mayor que 0</string>
     <string name="text_username_participante">(@%1$s)</string>
     <string name="error_participante_no_existe_ddbb">No existe el usuario indicado</string>
@@ -78,5 +78,6 @@
     <string name="pagado">Pagado</string>
     <string name="no_pagado">Marcar como pagado</string>
     <string name="info_operacion_completada">Operación completada con éxito</string>
+    <string name="error_no_pagador">Se debe seleccionar un pagador</string>
 
 </resources>

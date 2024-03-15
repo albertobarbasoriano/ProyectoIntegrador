@@ -67,6 +67,23 @@ public class NuevoGrupoActivity extends AppCompatActivity {
         btnAddParticipante = findViewById(R.id.btnAddParticipante);
 
         participanteGrupoAdapter = new ParticipanteGrupoAdapter(listaParticipantes);
+        participanteGrupoAdapter.setCallback(new ParticipanteGrupoAdapter.Callback() {
+            @Override
+            public void OnEliminarParticipante(Participante participante) {
+                if (!listaParticipantes.isEmpty()){
+                    int i = 0;
+                    for (Participante check : listaParticipantes){
+                        if (check.getUsername().equals(participante.getUsername())){
+                            break;
+                        }
+                        i++;
+                    }
+                    listaParticipantes.remove(i);
+                    grupo.removeParticipante(participante);
+                    participanteGrupoAdapter.notifyDataSetChanged();
+                }
+            }
+        });
         LinearLayoutManager llm = new LinearLayoutManager(this);
         rv = findViewById(R.id.rvParticipantesGrupo);
         rv.setLayoutManager(llm);
@@ -161,9 +178,10 @@ public class NuevoGrupoActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         Toast.makeText(NuevoGrupoActivity.this, String.format(getString(R.string.info_grupo_add), grupo.getTitulo()), Toast.LENGTH_SHORT).show();
-                        etTitulo.setText("");
-                        etDescripcion.setText("");
-                        spnDivisa.setSelection(0);
+//                        etTitulo.setText("");
+//                        etDescripcion.setText("");
+//                        spnDivisa.setSelection(0);
+                        finish();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
