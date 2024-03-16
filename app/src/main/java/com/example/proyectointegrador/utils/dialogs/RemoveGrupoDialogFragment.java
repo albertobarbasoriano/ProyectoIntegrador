@@ -50,7 +50,7 @@ public class RemoveGrupoDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(View v) {
                         Log.i("RemoveDialogFragment", "Datos enviados: " + grupo.getTitulo() + true);
-                        listener.removeGrupo(grupo, true);
+                        listener.salirGrupo(grupo, true);
                         dismiss();
                     }
                 });

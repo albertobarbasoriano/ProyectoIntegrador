@@ -21,6 +21,10 @@ import com.example.proyectointegrador.utils.MyApp;
 import com.example.proyectointegrador.utils.dialogs.RemoveGrupoDialogFragment;
 import com.example.proyectointegrador.utils.recyclerview.GrupoAdapter;
 import com.example.proyectointegrador.utils.dialogs.RemoveGrupoDialogListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,6 +43,7 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
     ArrayList<Grupo> grupos;
     MyApp app;
     FirebaseDatabase db;
+    DatabaseReference refLoggedUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,31 +71,33 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void consultarGrupos() {
-        if (app.getLoggedParticipante() != null)
-            db.getReference("Usuarios")
+        if (app.getLoggedParticipante() != null){
+            refLoggedUser = db.getReference("Usuarios")
                     .child(app.getLoggedParticipante().getUsername())
-                    .child("grupos")
-                    .addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            grupos.clear();
-                            for (DataSnapshot childSnapshot : snapshot.getChildren()) {
-                                addInfoGrupo(childSnapshot.getKey());
-                            }
-                        }
+                    .child("grupos");
+            refLoggedUser.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    grupos.clear();
+                    for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                        addInfoGrupo(childSnapshot.getKey());
+                    }
+                }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(GruposActivity.this, R.string.error_algo_mal, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(GruposActivity.this, R.string.error_algo_mal, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
     }
 
 
     private void addInfoGrupo(String key) {
         db.getReference(NuevoGrupoActivity.DB_PATH_GRUPOS)
                 .child(key)
-                .addValueEventListener(new ValueEventListener() {
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         Grupo grupoResult = snapshot.getValue(Grupo.class);
@@ -176,58 +183,20 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
         return true;
     }
 
-    @Override
-    public void removeGrupo(Grupo grupo, boolean remove) {
+    public void salirGrupo(Grupo grupo, boolean remove) {
         Log.i("removeListener", "Datos recibidos:" + grupo + ", " + remove);
         if (remove && grupo != null) {
-            //Lo primero es borrar las referencias de los participantes al grupo seleccionado
-            ArrayList<String> participantes = new ArrayList<>(); //Lista de todos los participantes pertenecientes al grupo
-            ArrayList<String> borrados = new ArrayList<>();
-            db.getReference("Usuarios")
-                    .orderByChild("grupos/" + grupo.getKey())
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                String participante = dataSnapshot.getKey();
-                                Log.i("removeListener: consultaTodosParticipantes", participante);
-                                participantes.add(participante);
-                            }
-                            //Borramos la referencia de todos los participantes que pertenecían al grupo
-                            for (String p : participantes) {
-                                Log.i("BORRAR REFERENCIA", "Se va a borrar la referencia de " + p + " a el grupo: " + grupo.getKey());
-                                db.getReference("Usuarios")
-                                        .child(p).child("grupos").child(grupo.getKey())
-                                        .removeValue(new DatabaseReference.CompletionListener() {
-                                            @Override
-                                            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                                                if (error == null){
-                                                    Log.i("BORRAR REFERENCIA", "Se ha borrado la referencia a " + p);
-                                                    borrados.add(p);
-                                                } else
-                                                    Log.e("BORRAR REFERENCIA", "Error al borrar referencia de " + p);
-                                            }
-                                        });
-                            }
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(app, R.string.error_algo_mal, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-            while (borrados.size() != participantes.size());
-            db.getReference("Grupos").child(grupo.getKey()).removeValue(new DatabaseReference.CompletionListener() {
+            // Para salir del grupo borramos la referencia del usuario al grupo
+            refLoggedUser.child(grupo.getKey()).removeValue(new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                    if (error == null)
+                    if (error == null){
                         Toast.makeText(app, R.string.info_grupo_borrado, Toast.LENGTH_SHORT).show();
-                    else
+
+                    }else
                         Toast.makeText(app, R.string.error_algo_mal, Toast.LENGTH_SHORT).show();
                 }
             });
-
         }
     }
 }

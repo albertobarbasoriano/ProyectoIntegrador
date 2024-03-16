@@ -15,23 +15,29 @@
         tools:targetApi="31">
         <activity
             android:name=".utils.dialogs.RemoveGrupoDialogFragment"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.PerfilActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.GruposActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.RegistroActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".view.NuevoGastoActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:label="@string/label_nuevo_gasto" />
         <activity
             android:name=".view.LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,10 +47,12 @@
         <activity
             android:name=".view.NuevoGrupoActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:label="@string/label_nuevo_grupo" />
         <activity
             android:name=".view.GrupoActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
