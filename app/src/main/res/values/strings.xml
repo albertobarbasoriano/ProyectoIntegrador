@@ -5,7 +5,7 @@
     <string name="tab_saldos">SALDOS</string>
 
     <!-- Global -->
-    <string name="globalTitulo">Titulo</string>
+    <string name="globalTitulo">Título</string>
 
     <!-- Activity grupos -->
     <string name="gruposDescription">Nuevo grupo</string>
@@ -22,7 +22,7 @@
     <string name="nuevoGastoPagadoHint">Pagado por</string>
 
     <!-- Activity nuevo grupo -->
-    <string name="nuevoGrupoDescripcionHint">Descripcion</string>
+    <string name="nuevoGrupoDescripcionHint">Descripción</string>
     <string name="nuevoGrupoAnnadir">Añadir</string>
     <string name="nuevoGrupoParticipantesHint">Participante</string>
 
@@ -32,7 +32,7 @@
     <string name="label_nuevo_grupo">Nuevo grupo</string>
     <string name="error_campos_obligatorios">Todos los campos son obligatorios</string>
     <string name="error_algo_mal">Ha ocurrido algo inesperado. No se han guardado los datos.</string>
-    <string name="error_user_vacio">Debes introducir un username</string>
+    <string name="error_user_vacio">Debes introducir un nombre de usuario</string>
     <string name="error_no_participantes">Se debe introducir al menos un participante</string>
     <string name="info_grupo_add">Se ha creado el grupo \"%1$s\"</string>
     <string name="label_nuevo_gasto">Nuevo gasto</string>
@@ -55,18 +55,18 @@
     <string name="introduce_email_contraseña">Introduce el Email y la Contraseña</string>
     <string name="introduce_email">Introduce el Email</string>
     <string name="introduce_password">Introduce la contraseña</string>
-    <string name="login_successful">El Login se ha realizado correctamente</string>
+    <string name="login_successful">Bienvenido!</string>
     <string name="autenticacion_fallida">Autenticación fallida</string>
     <string name="usuario_creado">Usuario Creado</string>
     <string name="error_usuario_creado">Error al crear el usuario</string>
     <string name="cuenta_creada">Cuenta creada</string>
-    <string name="error_cuenta_creada">El correo ya esta asociado a una cuenta</string>
+    <string name="error_cuenta_creada">El correo ya está asociado a una cuenta</string>
     <string name="nombre">Nombre completo</string>
-    <string name="usuario_existente">El nombre de usuario no esta disponible</string>
+    <string name="usuario_existente">El nombre de usuario no está disponible</string>
     <string name="introduce_confPassword">Introduce la confirmación de la contraseña</string>
     <string name="introduce_nombre">Introduce el nombre</string>
-    <string name="introduce_username">Introduce el nombre de ususario</string>
-    <string name="password_coincidir">Las contraseñas deben de coincidir</string>
+    <string name="introduce_username">Introduce el nombre de usuario</string>
+    <string name="password_coincidir">Las contraseñas deben coincidir</string>
     <string name="error_participante_added">El participante introducido ya está en el grupo.</string>
     <string name="error_creador_added">Tú ya estás en el grupo.</string>
     <string name="pagado">Pagado</string>
@@ -83,5 +83,5 @@
     <string name="remove_gasto_title">Eliminar gasto</string>
     <string name="info_gasto_eliminado">Gasto eliminado con éxito.</string>
     <string name="email_no_valido">Se debe introducir un email válido</string>
-
+    <string name="nombre_no_valido">Se debe introducir un nombre válido</string>
 </resources>
