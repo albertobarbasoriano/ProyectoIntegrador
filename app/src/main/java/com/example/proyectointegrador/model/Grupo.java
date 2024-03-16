@@ -1,10 +1,5 @@
 package com.example.proyectointegrador.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

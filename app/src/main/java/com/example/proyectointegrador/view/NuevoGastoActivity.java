@@ -89,8 +89,13 @@ public class NuevoGastoActivity extends AppCompatActivity {
         spnPagador.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                gasto.setPagador(spnPagador.getSelectedItem().toString());
-                configRV();
+                if (position != spnPagador.getCount()){
+                    gasto.setPagador(spnPagador.getSelectedItem().toString());
+                    participantesGasto.clear();
+                    gasto.initParticipantes(participantesGasto);
+                    configRV();
+                }
+
             }
 
             @Override

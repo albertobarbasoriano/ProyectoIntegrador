@@ -26,6 +26,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.regex.Pattern;
+
 public class RegistroActivity extends AppCompatActivity {
 
     TextInputEditText etNombre, etUsuario, etEmail, etPassword, etConfPassword;
@@ -63,7 +66,7 @@ public class RegistroActivity extends AppCompatActivity {
         btnRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
+
                 String nombre = String.valueOf(etNombre.getText());
                 String username = String.valueOf(etUsuario.getText());
                 String email = String.valueOf(etEmail.getText());
@@ -75,37 +78,30 @@ public class RegistroActivity extends AppCompatActivity {
 
                 if (TextUtils.isEmpty(nombre)) {
 
-                    progressBar.setVisibility(View.GONE);
-
                     Toast.makeText(RegistroActivity.this, R.string.introduce_nombre, Toast.LENGTH_LONG).show();
 
                 } else if (TextUtils.isEmpty(username)) {
-
-                    progressBar.setVisibility(View.GONE);
 
                     Toast.makeText(RegistroActivity.this, R.string.introduce_username, Toast.LENGTH_LONG).show();
 
                 } else if (TextUtils.isEmpty(email)) {
 
-                    progressBar.setVisibility(View.GONE);
-
                     Toast.makeText(RegistroActivity.this, R.string.introduce_email, Toast.LENGTH_LONG).show();
 
                 } else if (TextUtils.isEmpty(password)) {
-
-                    progressBar.setVisibility(View.GONE);
 
                     Toast.makeText(RegistroActivity.this, R.string.introduce_password, Toast.LENGTH_LONG).show();
 
                 } else if (TextUtils.isEmpty(confPassword)) {
 
-                    progressBar.setVisibility(View.GONE);
-
                     Toast.makeText(RegistroActivity.this, R.string.introduce_confPassword, Toast.LENGTH_LONG).show();
 
+                } else if (comprobarEmail(email)) {
+                    Toast.makeText(RegistroActivity.this, R.string.email_no_valido, Toast.LENGTH_LONG).show();
                 } else if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(confPassword) && !TextUtils.isEmpty(username) && !TextUtils.isEmpty(nombre)) {
 
-                    if (password.equals(confPassword)){
+                    if (password.equals(confPassword)) {
+                        progressBar.setVisibility(View.VISIBLE);
                         refUsuario.orderByChild("username").equalTo(username).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -145,6 +141,7 @@ public class RegistroActivity extends AppCompatActivity {
                                     });
                                 }
                             }
+
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
                                 Toast.makeText(RegistroActivity.this, "Error en la consulta a la base de datos", Toast.LENGTH_SHORT).show();
@@ -156,5 +153,16 @@ public class RegistroActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private boolean comprobarEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+
+        return !pat.matcher(email).matches();
     }
 }

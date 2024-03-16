@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -59,14 +58,11 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
                 String email, password;
                 email = String.valueOf(etEmail.getText());
                 password = String.valueOf(etPassword.getText());
 
                 if (TextUtils.isEmpty(email) && TextUtils.isEmpty(password)) {
-
-                    progressBar.setVisibility(View.GONE);
 
                     Toast.makeText(LoginActivity.this, R.string.introduce_email_contraseña, Toast.LENGTH_SHORT).show();
 
@@ -74,15 +70,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 } else if (TextUtils.isEmpty(email)) {
 
-                    progressBar.setVisibility(View.GONE);
-
                     Toast.makeText(LoginActivity.this, R.string.introduce_email, Toast.LENGTH_SHORT).show();
 
                     return;
 
                 } else if (TextUtils.isEmpty(password)) {
-
-                    progressBar.setVisibility(View.GONE);
 
                     Toast.makeText(LoginActivity.this, R.string.introduce_password, Toast.LENGTH_SHORT).show();
 
@@ -90,13 +82,14 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
 
+                progressBar.setVisibility(View.VISIBLE);
+
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     lookForUser(email);
-                                    limpiarCampos();
                                 } else {
 
                                     Toast.makeText(LoginActivity.this, R.string.autenticacion_fallida,
@@ -124,7 +117,6 @@ public class LoginActivity extends AppCompatActivity {
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Log.i("lookForUser().onDataChange:", "Estamos en el onDataChange");
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             Participante participante = dataSnapshot.getValue(Participante.class);
                             app.setLoggedParticipante(participante);
@@ -132,6 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), R.string.login_successful, Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, GruposActivity.class);
                             startActivity(intent);
+                            limpiarCampos();
                         }
 
                     }

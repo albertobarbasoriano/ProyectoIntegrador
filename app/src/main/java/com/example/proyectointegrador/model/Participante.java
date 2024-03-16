@@ -1,8 +1,5 @@
 package com.example.proyectointegrador.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Participante {
     String username, nombre, email;
 
