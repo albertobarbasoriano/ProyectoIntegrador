@@ -93,7 +93,7 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
     private void addInfoGrupo(String key) {
         db.getReference(NuevoGrupoActivity.DB_PATH_GRUPOS)
                 .child(key)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         Grupo grupoResult = snapshot.getValue(Grupo.class);
