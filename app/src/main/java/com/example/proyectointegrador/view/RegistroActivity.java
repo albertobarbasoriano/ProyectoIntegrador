@@ -98,6 +98,8 @@ public class RegistroActivity extends AppCompatActivity {
 
                 } else if (comprobarEmail(email)) {
                     Toast.makeText(RegistroActivity.this, R.string.email_no_valido, Toast.LENGTH_LONG).show();
+                } else if(comprobarNombre(nombre)){
+                    Toast.makeText(RegistroActivity.this, R.string.nombre_no_valido, Toast.LENGTH_LONG).show();
                 } else if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password) && !TextUtils.isEmpty(confPassword) && !TextUtils.isEmpty(username) && !TextUtils.isEmpty(nombre)) {
 
                     if (password.equals(confPassword)) {
@@ -164,5 +166,13 @@ public class RegistroActivity extends AppCompatActivity {
         Pattern pat = Pattern.compile(emailRegex);
 
         return !pat.matcher(email).matches();
+    }
+
+    private boolean comprobarNombre(String nombre){
+        String nombreRegex = "^[a-zA-ZáéíóúÁÉÍÓÚüÜ]+(?:\\s[a-zA-ZáéíóúÁÉÍÓÚüÜ]+)*$";
+
+        Pattern pat = Pattern.compile(nombreRegex);
+
+        return !pat.matcher(nombre).matches();
     }
 }
