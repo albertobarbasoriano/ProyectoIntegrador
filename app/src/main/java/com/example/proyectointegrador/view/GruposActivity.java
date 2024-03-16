@@ -17,13 +17,10 @@ import android.widget.Toast;
 import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
-import com.example.proyectointegrador.model.Participante;
 import com.example.proyectointegrador.utils.MyApp;
-import com.example.proyectointegrador.utils.dialogs.RemoveDialogFragment;
+import com.example.proyectointegrador.utils.dialogs.RemoveGrupoDialogFragment;
 import com.example.proyectointegrador.utils.recyclerview.GrupoAdapter;
-import com.example.proyectointegrador.utils.dialogs.DialogListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.proyectointegrador.utils.dialogs.RemoveGrupoDialogListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class GruposActivity extends AppCompatActivity implements View.OnClickListener, DialogListener, View.OnLongClickListener {
+public class GruposActivity extends AppCompatActivity implements View.OnClickListener, RemoveGrupoDialogListener, View.OnLongClickListener {
     FloatingActionButton btn;
     GrupoAdapter grupoAdapter;
     LinearLayoutManager llm;
@@ -173,14 +170,14 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
     public boolean onLongClick(View v) {
         Grupo grupo = ((GrupoAdapter) rv.getAdapter()).getGrupos().get(rv.getChildAdapterPosition(v));
         Log.i("onLongClick", "Grupo seleccionado: " + grupo.getTitulo());
-        RemoveDialogFragment rdf = new RemoveDialogFragment();
-        rdf.setGrupo(grupo);
-        rdf.show(getSupportFragmentManager(), "remove");
+        RemoveGrupoDialogFragment rgdf = new RemoveGrupoDialogFragment();
+        rgdf.setGrupo(grupo);
+        rgdf.show(getSupportFragmentManager(), "remove");
         return true;
     }
 
     @Override
-    public void removeListener(Grupo grupo, boolean remove) {
+    public void removeGrupo(Grupo grupo, boolean remove) {
         Log.i("removeListener", "Datos recibidos:" + grupo + ", " + remove);
         if (remove && grupo != null) {
             //Lo primero es borrar las referencias de los participantes al grupo seleccionado

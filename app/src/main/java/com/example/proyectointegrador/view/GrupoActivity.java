@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.model.Deuda;
 import com.example.proyectointegrador.model.Grupo;
 import com.example.proyectointegrador.utils.MyApp;
+import com.example.proyectointegrador.utils.dialogs.RemoveGastoDialogFragment;
+import com.example.proyectointegrador.utils.dialogs.RemoveGastoDialogListener;
 import com.example.proyectointegrador.utils.fragments.OnGastosFragmentListener;
 import com.example.proyectointegrador.utils.fragments.OnSaldosFragmentListener;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,6 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,7 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class GrupoActivity extends AppCompatActivity implements OnGastosFragmentListener, OnSaldosFragmentListener {
+public class GrupoActivity extends AppCompatActivity implements OnGastosFragmentListener, OnSaldosFragmentListener, RemoveGastoDialogListener {
 
     private ActivityGrupoBinding binding;
     private SectionsPagerAdapter sectionsPagerAdapter;
@@ -103,6 +107,13 @@ public class GrupoActivity extends AppCompatActivity implements OnGastosFragment
     }
 
     @Override
+    public void onEliminarGasto(String key) {
+        RemoveGastoDialogFragment rgdf = new RemoveGastoDialogFragment();
+        rgdf.setKey(key);
+        rgdf.show(getSupportFragmentManager(), "removeGasto");
+    }
+
+    @Override
     public void confirmarCambios(ArrayList<Deuda> deudasAPagar) {
         Grupo grupo = app.getGrupoSelec();
         for (Deuda deuda : deudasAPagar) { //Como las deudas están simplificadas, al confirmar pagamos las deudas en ambos sentidos
@@ -126,5 +137,16 @@ public class GrupoActivity extends AppCompatActivity implements OnGastosFragment
         });
     }
 
-
+    @Override
+    public void eliminarGasto(String key) {
+        reference.child("listaGastos/" + key).removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                if (error == null)
+                    Toast.makeText(app, R.string.info_gasto_eliminado, Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(app, R.string.error_algo_mal, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

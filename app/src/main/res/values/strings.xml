@@ -80,10 +80,13 @@
     <string name="info_operacion_completada">Operación completada con éxito</string>
     <string name="error_no_pagador">Se debe seleccionar un pagador</string>
     <string name="cerrar_sesion">Cerrar Sesión</string>
-    <string name="removeDialog">¿Desea eliminar el grupo seleccionado?</string>
-    <string name="removeTitle">Eliminar grupo</string>
-    <string name="removeAceptar">Aceptar</string>
-    <string name="removeCancelar">Cancelar</string>
+    <string name="remove_grupo_dialog">¿Desea eliminar el grupo seleccionado?</string>
+    <string name="remove_grupo_title">Eliminar grupo</string>
+    <string name="remove_aceptar">Aceptar</string>
+    <string name="remove_cancelar">Cancelar</string>
     <string name="info_grupo_borrado">Se ha borrado el grupo correctamente</string>
+    <string name="remove_gasto_dialog">¿Desea eliminar el gasto seleccionado?</string>
+    <string name="remove_gasto_title">Eliminar gasto</string>
+    <string name="info_gasto_eliminado">Gasto eliminado con éxito.</string>
 
 </resources>

@@ -16,9 +16,9 @@ import androidx.fragment.app.DialogFragment;
 import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.model.Grupo;
 
-public class RemoveDialogFragment extends DialogFragment {
+public class RemoveGrupoDialogFragment extends DialogFragment {
 
-    DialogListener listener;
+    private RemoveGrupoDialogListener listener;
     private Grupo grupo;
 
     @NonNull
@@ -30,10 +30,10 @@ public class RemoveDialogFragment extends DialogFragment {
         View v = getActivity().getLayoutInflater().inflate(R.layout.remove_dialog_fragment, null);
 
         builder.setView(v);
-        builder.setTitle(R.string.removeTitle)
+        builder.setTitle(R.string.remove_grupo_title)
                 .setCancelable(false)
-                .setPositiveButton(R.string.removeAceptar, null)
-                .setNegativeButton(R.string.removeCancelar, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.remove_aceptar, null)
+                .setNegativeButton(R.string.remove_cancelar, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
@@ -50,7 +50,7 @@ public class RemoveDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(View v) {
                         Log.i("RemoveDialogFragment", "Datos enviados: " + grupo.getTitulo() + true);
-                        listener.removeListener(grupo, true);
+                        listener.removeGrupo(grupo, true);
                         dismiss();
                     }
                 });
@@ -63,11 +63,11 @@ public class RemoveDialogFragment extends DialogFragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if (context instanceof DialogListener) {
-            listener = (DialogListener) context;
+        if (context instanceof RemoveGrupoDialogListener) {
+            listener = (RemoveGrupoDialogListener) context;
         } else {
             Log.e("ERROR DialogFragment",
-                    "El Activity asociado a dicho fragmento debe implementar OnDatosDialogListener ");
+                    "El Activity asociado a dicho fragmento debe implementar RemoveGrupoDialogListener");
         }
     }
 

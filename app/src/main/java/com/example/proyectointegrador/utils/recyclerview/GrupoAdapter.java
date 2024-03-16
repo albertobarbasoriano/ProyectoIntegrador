@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.model.Grupo;
-import com.example.proyectointegrador.utils.dialogs.RemoveDialogFragment;
 
 import java.util.ArrayList;
 

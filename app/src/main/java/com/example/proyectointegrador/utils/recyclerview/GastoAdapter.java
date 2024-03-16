@@ -12,17 +12,20 @@ import com.example.proyectointegrador.R;
 import com.example.proyectointegrador.model.Gasto;
 import com.example.proyectointegrador.model.Grupo;
 
-public class GastoAdapter extends RecyclerView.Adapter<GastoAdapter.GastoVH> {
+public class GastoAdapter extends RecyclerView.Adapter<GastoAdapter.GastoVH> implements View.OnLongClickListener{
     private Grupo grupo;
+    private View.OnLongClickListener listener;
 
-    public GastoAdapter(Grupo grupo){
+    public GastoAdapter(Grupo grupo, View.OnLongClickListener listener){
         this.grupo = grupo;
+        this.listener = listener;
     }
     @NonNull
     @Override
     public GastoVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_gasto, parent, false);
+        v.setOnLongClickListener(listener);
         GastoVH gvh = new GastoVH(v);
         return gvh;
     }
@@ -42,6 +45,16 @@ public class GastoAdapter extends RecyclerView.Adapter<GastoAdapter.GastoVH> {
 
     public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
+    }
+
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        listener.onLongClick(v);
+        return true;
     }
 
     public static class GastoVH extends RecyclerView.ViewHolder{

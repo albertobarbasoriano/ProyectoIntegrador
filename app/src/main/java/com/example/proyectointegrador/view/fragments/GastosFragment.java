@@ -7,7 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +26,9 @@ import com.example.proyectointegrador.utils.recyclerview.GastoAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GastosFragment extends Fragment {
+public class GastosFragment extends Fragment implements View.OnLongClickListener {
     private GastoAdapter adapter;
+    private RecyclerView rv;
     private LinearLayoutManager llm;
     private FragmentGastosBinding binding;
     private Grupo grupo;
@@ -104,11 +107,12 @@ public class GastosFragment extends Fragment {
     }
 
     private void configurarRV(View root) {
-        adapter = new GastoAdapter(grupo);
+        adapter = new GastoAdapter(grupo, this);
         llm = new LinearLayoutManager(root.getContext());
-        binding.rvListaGastos.setLayoutManager(llm);
-        binding.rvListaGastos.setAdapter(adapter);
-        binding.rvListaGastos.setHasFixedSize(true);
+        rv = binding.rvListaGastos;
+        rv.setLayoutManager(llm);
+        rv.setAdapter(adapter);
+        rv.setHasFixedSize(true);
     }
 
     @Override
@@ -122,6 +126,7 @@ public class GastosFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof OnGastosFragmentListener)
             listener = (OnGastosFragmentListener) context;
+
     }
 
     @Override
@@ -135,5 +140,13 @@ public class GastosFragment extends Fragment {
         updateBarraInferior();
         adapter.setGrupo(grupo);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        Gasto gasto = ((GastoAdapter) rv.getAdapter()).getGrupo().getGastoList().get(rv.getChildAdapterPosition(v));
+        Log.i("GastoFragment::onLongClick", "Gasto seleccionado: " + gasto.getTitulo() + ", key: " + gasto.getKey());
+        listener.onEliminarGasto(gasto.getKey());
+        return true;
     }
 }
