@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +24,7 @@ import com.example.proyectointegrador.model.Grupo;
 import com.example.proyectointegrador.utils.MyApp;
 import com.example.proyectointegrador.utils.fragments.OnGastosFragmentListener;
 import com.example.proyectointegrador.utils.recyclerview.GastoAdapter;
+import com.example.proyectointegrador.view.utils.GrupoViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,7 @@ public class GastosFragment extends Fragment implements View.OnLongClickListener
     private MyApp app;
     private TextView tvTotalCuenta, tvMiTotalCuenta;
 
+    private GrupoViewModel grupoViewModel;
     public GastosFragment() {
     }
 
@@ -51,6 +55,14 @@ public class GastosFragment extends Fragment implements View.OnLongClickListener
         View root = binding.getRoot();
         tvTotalCuenta = binding.tvTotalCuenta;
         tvMiTotalCuenta = binding.tvMiTotalCuenta;
+
+        grupoViewModel = new ViewModelProvider(requireActivity()).get(GrupoViewModel.class);
+        grupoViewModel.getGrupoSeleccionado().observe(getViewLifecycleOwner(), new Observer<Grupo>() {
+            @Override
+            public void onChanged(Grupo grupo) {
+                update(grupo);
+            }
+        });
 
         app = (MyApp) getActivity().getApplication();
         grupo = app.getGrupoSelec();
@@ -71,8 +83,8 @@ public class GastosFragment extends Fragment implements View.OnLongClickListener
         return root;
     }
 
-    private void updateBarraInferior() {
-        if (isAdded()){
+    public void updateBarraInferior() {
+        if (true){
             if (grupo != null) {
                 //UPDATE DEL GASTO TOTAL
                 List<Gasto> gastos = grupo.getGastoList();
@@ -109,6 +121,8 @@ public class GastosFragment extends Fragment implements View.OnLongClickListener
 
     }
 
+
+
     private void configurarRV(View root) {
         adapter = new GastoAdapter(grupo, this);
         llm = new LinearLayoutManager(root.getContext());
@@ -139,9 +153,11 @@ public class GastosFragment extends Fragment implements View.OnLongClickListener
     }
 
     public void update(Grupo grupo) {
-        updateBarraInferior();
+//        updateBarraInferior();
+        this.grupo = grupo;
         adapter.setGrupo(grupo);
         adapter.notifyDataSetChanged();
+        updateBarraInferior();
     }
 
     @Override

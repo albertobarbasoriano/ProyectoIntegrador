@@ -9,6 +9,8 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.proyectointegrador.databinding.FragmentSaldosBinding;
@@ -18,6 +20,7 @@ import com.example.proyectointegrador.utils.MyApp;
 import com.example.proyectointegrador.utils.fragments.OnSaldosFragmentListener;
 import com.example.proyectointegrador.utils.recyclerview.GastoSaldoAdapter;
 import com.example.proyectointegrador.utils.recyclerview.ParticipanteSaldoAdapter;
+import com.example.proyectointegrador.view.utils.GrupoViewModel;
 
 import java.util.ArrayList;
 
@@ -31,6 +34,7 @@ public class SaldosFragment extends Fragment {
     private ArrayList<Deuda> deudasAPagar;
     private Button btnConfirmar;
     private OnSaldosFragmentListener listener;
+    private GrupoViewModel grupoViewModel;
 
     public SaldosFragment() {
     }
@@ -46,11 +50,21 @@ public class SaldosFragment extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+
         app = (MyApp) getActivity().getApplication();
         grupo = app.getGrupoSelec();
+
         binding = FragmentSaldosBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         deudasAPagar = new ArrayList<>();
+
+        grupoViewModel = new ViewModelProvider(requireActivity()).get(GrupoViewModel.class);
+        grupoViewModel.getGrupoSeleccionado().observe(getViewLifecycleOwner(), new Observer<Grupo>() {
+            @Override
+            public void onChanged(Grupo grupo) {
+                update(grupo);
+            }
+        });
         btnConfirmar = binding.btnConfirmar;
         btnConfirmar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +134,7 @@ public class SaldosFragment extends Fragment {
     }
 
     public void update(Grupo grupo) {
+        this.grupo = grupo;
         participanteSaldoAdapter.setGrupo(grupo);
         gastoSaldoAdapter.setGrupo(grupo);
         participanteSaldoAdapter.notifyDataSetChanged();

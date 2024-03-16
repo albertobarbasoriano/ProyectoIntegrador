@@ -14,6 +14,7 @@ import com.example.proyectointegrador.utils.dialogs.RemoveGastoDialogFragment;
 import com.example.proyectointegrador.utils.dialogs.RemoveGastoDialogListener;
 import com.example.proyectointegrador.utils.fragments.OnGastosFragmentListener;
 import com.example.proyectointegrador.utils.fragments.OnSaldosFragmentListener;
+import com.example.proyectointegrador.view.utils.GrupoViewModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -21,6 +22,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -40,7 +42,7 @@ public class GrupoActivity extends AppCompatActivity implements OnGastosFragment
     private ActivityGrupoBinding binding;
     private SectionsPagerAdapter sectionsPagerAdapter;
     private DatabaseReference reference;
-
+    private GrupoViewModel grupoViewModel;
     private MyApp app;
 
     @Override
@@ -49,7 +51,11 @@ public class GrupoActivity extends AppCompatActivity implements OnGastosFragment
         binding = ActivityGrupoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        grupoViewModel = new ViewModelProvider(this).get(GrupoViewModel.class);
+
         app = (MyApp) getApplication();
+
+        grupoViewModel.setGrupoSeleccionado(app.getGrupoSelec());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Log.i("GruposActivity::onCreate", "Grupo selec:" + app.getGrupoSelec());
@@ -72,12 +78,7 @@ public class GrupoActivity extends AppCompatActivity implements OnGastosFragment
                 if (snapshot.exists()) {
                     Grupo grupoResult = snapshot.getValue(Grupo.class);
                     app.setGrupoSelec(grupoResult);
-                    if (sectionsPagerAdapter.getGastosFragment() != null) {
-                        sectionsPagerAdapter.getGastosFragment().update(grupoResult);
-                    }
-                    if (sectionsPagerAdapter.getSaldosFragment() != null) {
-                        sectionsPagerAdapter.getSaldosFragment().update(grupoResult);
-                    }
+                    grupoViewModel.setGrupoSeleccionado(grupoResult);
                 }
             }
 
@@ -98,6 +99,9 @@ public class GrupoActivity extends AppCompatActivity implements OnGastosFragment
         return super.onOptionsItemSelected(item);
     }
 
+    public void setGrupoSeleccionado(Grupo grupo) {
+        grupoViewModel.setGrupoSeleccionado(grupo);
+    }
 
     @Override
     public void launchNuevoGrupo() {
@@ -122,18 +126,18 @@ public class GrupoActivity extends AppCompatActivity implements OnGastosFragment
         FirebaseDatabase.getInstance().getReference("Grupos")
                 .child(grupo.getKey()).child("listaGastos")
                 .setValue(grupo.getListaGastos()).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()){
-                    Toast.makeText(app, R.string.info_operacion_completada, Toast.LENGTH_SHORT).show();
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(app, R.string.error_algo_mal, Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(app, R.string.info_operacion_completada, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(app, R.string.error_algo_mal, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
