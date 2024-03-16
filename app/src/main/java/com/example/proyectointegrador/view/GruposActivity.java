@@ -51,7 +51,7 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
         rv = findViewById(R.id.rvGrupos);
         llm = new LinearLayoutManager(this);
         grupoAdapter = new GrupoAdapter(grupos, this, this);
-        app = (MyApp) getApplicationContext();
+        app = (MyApp) getApplication();
         consultarGrupos();
         rv.setLayoutManager(llm);
         rv.setAdapter(grupoAdapter);
@@ -134,8 +134,7 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         Grupo grupo = ((GrupoAdapter) rv.getAdapter()).getGrupos().get(rv.getChildAdapterPosition(v));
-        MyApp myApp = (MyApp) getApplicationContext();
-        myApp.setGrupoSelec(grupo);
+        app.setGrupoSelec(grupo);
         Intent i = new Intent(GruposActivity.this, GrupoActivity.class);
         startActivity(i);
     }

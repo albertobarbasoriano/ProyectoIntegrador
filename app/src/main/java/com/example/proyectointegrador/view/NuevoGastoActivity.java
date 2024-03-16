@@ -51,7 +51,7 @@ public class NuevoGastoActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        app = (MyApp) getApplicationContext();
+        app = (MyApp) getApplication();
         grupo = app.getGrupoSelec();
 
         participantesGasto = new ArrayList<>();

@@ -31,7 +31,7 @@ public class PerfilActivity extends AppCompatActivity {
         tvNombre = findViewById(R.id.tvNombre);
         tvEmail = findViewById(R.id.tvEmail);
         tvCerrarSesion = findViewById(R.id.tvCerrarSesion);
-        app = (MyApp) getApplicationContext();
+        app = (MyApp) getApplication();
         reference = FirebaseDatabase.getInstance().getReference();
 
         tvCerrarSesion.setOnClickListener(new View.OnClickListener() {

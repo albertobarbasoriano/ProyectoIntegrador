@@ -52,7 +52,7 @@ public class GastosFragment extends Fragment implements View.OnLongClickListener
         tvTotalCuenta = binding.tvTotalCuenta;
         tvMiTotalCuenta = binding.tvMiTotalCuenta;
 
-        app = (MyApp) getActivity().getApplicationContext();
+        app = (MyApp) getActivity().getApplication();
         grupo = app.getGrupoSelec();
         configurarRV(root);
         if (grupo.getListaGastos() != null) {
@@ -72,37 +72,40 @@ public class GastosFragment extends Fragment implements View.OnLongClickListener
     }
 
     private void updateBarraInferior() {
-        if (grupo != null) {
-            //UPDATE DEL GASTO TOTAL
-            List<Gasto> gastos = grupo.getGastoList();
-            double totalGrupo = 0;
-            if (gastos != null)
-                for (Gasto gasto : gastos) {
-                    totalGrupo += gasto.getTotal();
-                }
-            tvTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), totalGrupo, grupo.formatDivisa()));
+        if (isAdded()){
+            if (grupo != null) {
+                //UPDATE DEL GASTO TOTAL
+                List<Gasto> gastos = grupo.getGastoList();
+                double totalGrupo = 0;
+                if (gastos != null)
+                    for (Gasto gasto : gastos) {
+                        totalGrupo += gasto.getTotal();
+                    }
+                tvTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), totalGrupo, grupo.formatDivisa()));
 
-            //UPDATE DEL GASTO PERSONAL
-            double gastoPersonal = 0;
-            if (gastos != null)
-                for (Gasto gasto : gastos) {
-                    if (gasto.getPagador().equals(app.getLoggedParticipante().getNombre())) {
-                        gastoPersonal += gasto.calcularPago();
-                    } else {
-                        List<String> participantes = new ArrayList<>(gasto.getParticipantes().keySet());
-                        if (participantes != null) {
-                            for (String participanteNombre : participantes) {
-                                if (participanteNombre.equals(app.getLoggedParticipante().getNombre())) {
-                                    gastoPersonal += gasto.calcularPago();
-                                    break;
+                //UPDATE DEL GASTO PERSONAL
+                double gastoPersonal = 0;
+                if (gastos != null)
+                    for (Gasto gasto : gastos) {
+                        if (gasto.getPagador().equals(app.getLoggedParticipante().getNombre())) {
+                            gastoPersonal += gasto.calcularPago();
+                        } else {
+                            List<String> participantes = new ArrayList<>(gasto.getParticipantes().keySet());
+                            if (participantes != null) {
+                                for (String participanteNombre : participantes) {
+                                    if (participanteNombre.equals(app.getLoggedParticipante().getNombre())) {
+                                        gastoPersonal += gasto.calcularPago();
+                                        break;
+                                    }
                                 }
                             }
-                        }
 
+                        }
                     }
-                }
-            tvMiTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), gastoPersonal, grupo.formatDivisa()));
+                tvMiTotalCuenta.setText(String.format(getString(R.string.text_coste_gasto), gastoPersonal, grupo.formatDivisa()));
+            }
         }
+
 
     }
 
@@ -135,8 +138,7 @@ public class GastosFragment extends Fragment implements View.OnLongClickListener
         listener = null;
     }
 
-    public void update() {
-        grupo = app.getGrupoSelec();
+    public void update(Grupo grupo) {
         updateBarraInferior();
         adapter.setGrupo(grupo);
         adapter.notifyDataSetChanged();

@@ -54,7 +54,7 @@ public class NuevoGrupoActivity extends AppCompatActivity {
         db = FirebaseDatabase.getInstance();
         listaParticipantes = new ArrayList<>();
         grupo = new Grupo(new ArrayList<Gasto>(), new ArrayList<String>(), null, null, null);
-        app = (MyApp) getApplicationContext();
+        app = (MyApp) getApplication();
 
         spnDivisa = findViewById(R.id.spnDivisa);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.nuevoGastoCantidades, R.layout.spinner_item);

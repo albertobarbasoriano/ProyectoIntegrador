@@ -46,7 +46,7 @@ public class SaldosFragment extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        app = (MyApp) getActivity().getApplicationContext();
+        app = (MyApp) getActivity().getApplication();
         grupo = app.getGrupoSelec();
         binding = FragmentSaldosBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -119,8 +119,7 @@ public class SaldosFragment extends Fragment {
         listener = null;
     }
 
-    public void update() {
-        grupo = app.getGrupoSelec();
+    public void update(Grupo grupo) {
         participanteSaldoAdapter.setGrupo(grupo);
         gastoSaldoAdapter.setGrupo(grupo);
         participanteSaldoAdapter.notifyDataSetChanged();

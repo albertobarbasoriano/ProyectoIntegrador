@@ -49,9 +49,10 @@ public class GrupoActivity extends AppCompatActivity implements OnGastosFragment
         binding = ActivityGrupoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        app = (MyApp) getApplicationContext();
+        app = (MyApp) getApplication();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Log.i("GruposActivity::onCreate", "Grupo selec:" + app.getGrupoSelec());
         getSupportActionBar().setTitle(app.getGrupoSelec().getTitulo());
 
         reference = FirebaseDatabase.getInstance().getReference("Grupos").child(app.getGrupoSelec().getKey());
@@ -68,15 +69,14 @@ public class GrupoActivity extends AppCompatActivity implements OnGastosFragment
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.i("DDBBUpdate", "En el onDataChange");
                 if (snapshot.exists()) {
                     Grupo grupoResult = snapshot.getValue(Grupo.class);
                     app.setGrupoSelec(grupoResult);
                     if (sectionsPagerAdapter.getGastosFragment() != null) {
-                        sectionsPagerAdapter.getGastosFragment().update();
+                        sectionsPagerAdapter.getGastosFragment().update(grupoResult);
                     }
                     if (sectionsPagerAdapter.getSaldosFragment() != null) {
-                        sectionsPagerAdapter.getSaldosFragment().update();
+                        sectionsPagerAdapter.getSaldosFragment().update(grupoResult);
                     }
                 }
             }

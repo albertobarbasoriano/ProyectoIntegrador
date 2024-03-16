@@ -21,7 +21,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private SaldosFragment saldosFragment;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mContext = context;
     }
 
@@ -29,10 +29,12 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         if (position == 0){
-            gastosFragment = GastosFragment.newInstance();
+            if (gastosFragment == null)
+                gastosFragment = GastosFragment.newInstance();
             return gastosFragment;
         }else{
-            saldosFragment = SaldosFragment.newInstance();
+            if (saldosFragment == null)
+                saldosFragment = SaldosFragment.newInstance();
             return saldosFragment;
         }
 

@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void lookForUser(String email) {
-        MyApp app = (MyApp) getApplicationContext();
+        MyApp app = (MyApp) getApplication();
         FirebaseDatabase.getInstance()
                 .getReference("Usuarios")
                 .orderByChild("email")
