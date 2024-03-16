@@ -57,8 +57,8 @@ public class NuevoGrupoActivity extends AppCompatActivity {
         app = (MyApp) getApplicationContext();
 
         spnDivisa = findViewById(R.id.spnDivisa);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.nuevoGastoCantidades, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.nuevoGastoCantidades, R.layout.spinner_item);
+//        adapter.setDropDownViewResource(R.layout.spinner_item);
         spnDivisa.setAdapter(adapter);
 
         etTitulo = findViewById(R.id.etTitulo);

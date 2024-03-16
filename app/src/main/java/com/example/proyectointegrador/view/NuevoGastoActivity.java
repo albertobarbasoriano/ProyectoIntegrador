@@ -66,21 +66,21 @@ public class NuevoGastoActivity extends AppCompatActivity {
         setListeners();
 
         // Creación spinner divisa
-        ArrayAdapter<String> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, new String[]{grupo.getDivisa()});
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter(this, R.layout.spinner_item, new String[]{grupo.getDivisa()});
+//        adapter.setDropDownViewResource(R.layout.spinner_item);
         spnCantidad.setAdapter(adapter);
         spnCantidad.setEnabled(false);
 
         //Creación spinner pagador
         String[] participantesArray = grupo.getListaParticipantes().toArray(new String[grupo.getListaParticipantes().size() + 1]);
         participantesArray[participantesArray.length - 1] = getString(R.string.nuevoGastoPagadoHint);
-        ArrayAdapter<String> pagadorAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, participantesArray) {
+        ArrayAdapter<String> pagadorAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, participantesArray) {
             @Override
             public int getCount() {
                 return participantesArray.length - 1;
             }
         };
-        pagadorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+//        pagadorAdapter.setDropDownViewResource(R.layout.spinner_item);
         spnPagador.setAdapter(pagadorAdapter);
         spnPagador.setSelection(participantesArray.length - 1);
     }
