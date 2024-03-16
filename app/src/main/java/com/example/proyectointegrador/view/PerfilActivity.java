@@ -42,8 +42,6 @@ public class PerfilActivity extends AppCompatActivity {
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("logout", true);
                 setResult(PerfilActivity.RESULT_OK, resultIntent);
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
                 finish();
             }
         });
