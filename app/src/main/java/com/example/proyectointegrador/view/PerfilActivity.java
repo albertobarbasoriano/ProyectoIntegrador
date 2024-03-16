@@ -1,9 +1,11 @@
 package com.example.proyectointegrador.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,6 +26,7 @@ public class PerfilActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tvNombreUsuario = findViewById(R.id.tvNombreUsuario);
         tvNombre = findViewById(R.id.tvNombre);
         tvEmail = findViewById(R.id.tvEmail);
@@ -38,14 +41,23 @@ public class PerfilActivity extends AppCompatActivity {
 
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("logout", true);
-
                 setResult(PerfilActivity.RESULT_OK, resultIntent);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
 
         cargarDatos();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void cargarDatos(){

@@ -101,7 +101,7 @@ public class NuevoGrupoActivity extends AppCompatActivity {
                 } else { //Comprobación de que el usuario existe en Firebase
                     FirebaseDatabase.getInstance()
                             .getReference("Usuarios")
-                            .child(usernameParticipante)
+                            .child(usernameParticipante.toLowerCase())
                             .addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {

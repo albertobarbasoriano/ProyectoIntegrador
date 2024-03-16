@@ -21,10 +21,6 @@ import com.example.proyectointegrador.utils.MyApp;
 import com.example.proyectointegrador.utils.dialogs.RemoveGrupoDialogFragment;
 import com.example.proyectointegrador.utils.recyclerview.GrupoAdapter;
 import com.example.proyectointegrador.utils.dialogs.RemoveGrupoDialogListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -168,6 +164,7 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
             boolean logout = data.getBooleanExtra("logout", false);
             if (logout) {
                 finish();
+
             }
         }
     }
@@ -192,7 +189,7 @@ public class GruposActivity extends AppCompatActivity implements View.OnClickLis
                 public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                     if (error == null){
                         Toast.makeText(app, R.string.info_grupo_borrado, Toast.LENGTH_SHORT).show();
-
+                        grupoAdapter.notifyDataSetChanged();
                     }else
                         Toast.makeText(app, R.string.error_algo_mal, Toast.LENGTH_SHORT).show();
                 }

@@ -102,7 +102,7 @@ public class RegistroActivity extends AppCompatActivity {
 
                     if (password.equals(confPassword)) {
                         progressBar.setVisibility(View.VISIBLE);
-                        refUsuario.orderByChild("username").equalTo(username).addListenerForSingleValueEvent(new ValueEventListener() {
+                        refUsuario.orderByChild("username").equalTo(username.toLowerCase()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if (snapshot.exists()) {
@@ -118,7 +118,7 @@ public class RegistroActivity extends AppCompatActivity {
 
                                                 participante = new Participante(username, nombre, email);
 
-                                                refUsuario.child(participante.getUsername()).setValue(participante)
+                                                refUsuario.child(participante.getUsername().toLowerCase()).setValue(participante)
                                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                             @Override
                                                             public void onSuccess(Void unused) {
